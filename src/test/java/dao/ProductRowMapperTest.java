@@ -1,50 +1,39 @@
 package dao;
 
+import dao.jdbc.mapper.ProductRowMapper;
 import entity.Product;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class ProductRowMapperTest {
 
     @Test
-    public void testProductRowMapper() {
+    public void testProductRowMapper() throws SQLException {
         ProductRowMapper productRowMapper = new ProductRowMapper();
-        ResultSet resultSetMock = mock(ResultSet.class);
+        LocalDateTime localDateTime = LocalDateTime.of(2021, 10, 11, 10, 11);
+        Timestamp timestamp = Timestamp.valueOf(localDateTime);
+        ResultSet resultSet = mock(ResultSet.class);
 
-        try {
-            when(resultSetMock.getInt("id")).thenReturn(1);
-        } catch (SQLException exception) {
-            throw new RuntimeException("Can`t get id from database", exception);
-        }
-        try {
-            when(resultSetMock.getString("name")).thenReturn("Lanour");
-        } catch (SQLException exception) {
-            throw new RuntimeException("Can`t get name from database", exception);
-        }
-        try {
-            when(resultSetMock.getInt("price")).thenReturn(6784);
-        } catch (SQLException exception) {
-            throw new RuntimeException("Can`t get price from database", exception);
-        }
-        try {
-            when(resultSetMock.getDate("creationdate")).thenReturn(Date.valueOf("2022-01-01"));
-        } catch (SQLException exception) {
-            throw new RuntimeException("Can`t get creationdate from database", exception);
-        }
+        when(resultSet.getInt("id")).thenReturn(1);
+        when(resultSet.getString("name")).thenReturn("snowboard");
+        when(resultSet.getDouble("price")).thenReturn(3000.00);
+        when(resultSet.getTimestamp("creationdate")).thenReturn(timestamp);
 
-        Product actual = null;
-        actual = productRowMapper.mapRow(resultSetMock);
+        Product actualProduct = productRowMapper.mapRow(resultSet);
 
-        assertEquals(1, actual.getId());
-        assertEquals("Lanour", actual.getName());
-        assertEquals(6784, actual.getPrice());
-        assertEquals("2022-01-01", actual.getCreationDate());
+        assertNotNull(actualProduct);
+        assertEquals(1, actualProduct.getId());
+        assertEquals("snowboard", actualProduct.getName());
+        assertEquals(3000.00, actualProduct.getPrice());
+        assertEquals(localDateTime.toString(), actualProduct.getCreationDate());
     }
 }

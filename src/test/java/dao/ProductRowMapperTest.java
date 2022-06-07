@@ -2,6 +2,7 @@ package dao;
 
 import dao.jdbc.mapper.ProductRowMapper;
 import entity.Product;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.sql.ResultSet;
@@ -17,6 +18,7 @@ import static org.mockito.Mockito.when;
 public class ProductRowMapperTest {
 
     @Test
+    @DisplayName("testProductRowMapper")
     public void testProductRowMapper() throws SQLException {
         ProductRowMapper productRowMapper = new ProductRowMapper();
         LocalDateTime localDateTime = LocalDateTime.of(2021, 10, 11, 10, 11);

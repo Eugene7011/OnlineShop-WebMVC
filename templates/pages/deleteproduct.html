@@ -13,30 +13,11 @@
     <link rel="stylesheet" href="allproducts.css">
     <script src="https://kit.fontawesome.com/332a215f17.js" crossorigin="anonymous"></script>
 </head>
-<style >
-   body {
-    background: url(https://p0.pikist.com/photos/917/669/flowers-background-tulips-tulips-background-dark-background-black-background-flowers-salmon-pink-spring-flowers.jpg);
-   }
-</style>
-<nav class="navbar navbar-expand-sm navbar-dark bg-black">
-    <div class="container">
-        <a href="http://localhost:63342/Online-Shop/onlineShop/templates/pages/shop.html?_ijt=ajg5q2qdaq1cunu2sju4c7does" class="navbar-brand">Perfume</a>
-        <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
 <body>
-<form action="/delete" method="POST"  style=position:absolute;left:27%;>
-    <h1>Delete perfume </h1>
+<h2 style=position:absolute;left:47%; >Delete product </h2>
+<form action="/products/delete" method="POST"  style=position:absolute;left:47%;><br><br>
     Id : <input type="text" name="id" style=position:absolute;left:6%;/ ><br><br>
-    <input type="submit" name="delete" value="Delete"style=position:absolute;left:50%;/>
+    <input type="submit" name="delete" value="Delete"style=position:absolute;left:40%;/>
 </form>
 </body>
 </html>

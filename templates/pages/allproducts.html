@@ -20,7 +20,7 @@
 <!-- Navigation bar-->
 <nav class="navbar navbar-expand-sm navbar-dark bg-black">
     <div class="container">
-        <a class="navbar-brand">Perfume</a>
+        <a class="navbar-brand">Brand</a>
         <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -75,11 +75,12 @@
 <!-- End of search Section-->
 
 <!-- Section of products-->
+<a href="/products/add" ><button type="button" class="btn btn-primary" style=position:absolute;left:80%; >CREATE PRODUCT</button></a><br>
 <section class="products">
     <div class="container">
         <div class="row">
             <div class="col-10 text-center mx-auto col-sm-6">
-                <h1 class="product-title">Shop list</h1>
+                <h1 class="product-title">Available products</h1>
             </div>
         </div>
 
@@ -90,15 +91,20 @@
                 <th scope="col">Name</th>
                 <th scope="col">Price</th>
                 <th scope="col">Creation Date</th>
+                <th scope="col">Actions</th>
             </tr>
             </thead>
             <tbody>
             <#list products as product>
-            <tr align="center" bgcolor="grey" width="50%" border="1" >
+            <tr align="center" width="50%" border="1" >
                 <td >${product.getId()}</td>
                 <td>${product.getName()}</td>
                 <td>${product.getPrice()}</td>
                 <td>${product.getCreationDate()}</td>
+                <td>
+                    <a href="/products?id=${product.getId()}" ><button type="button" class="btn btn-success" >EDIT</button></a>
+                    <a href="/products/delete" ><button type="button" class="btn btn-danger">DELETE</button></a>
+                </td>
             </tr>
             </#list>
             </tbody>

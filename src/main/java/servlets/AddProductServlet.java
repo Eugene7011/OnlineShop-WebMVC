@@ -1,26 +1,24 @@
 package servlets;
 
-import dao.JdbcProductDao;
+import dao.jdbc.JdbcProductDao;
 import entity.Product;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import pagegenerator.PageGenerator;
 import security.SecurityService;
+import service.ProductService;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class AddProductServlet extends HttpServlet {
-    private List<String> userTokens;
     private JdbcProductDao jdbcProductDao = new JdbcProductDao();
     private SecurityService securityService = new SecurityService();
+    private ProductService productService = new ProductService();
 
-    public AddProductServlet(List<String> userTokens) {
-        this.userTokens = userTokens;
-    }
 
     public AddProductServlet() {
     }
@@ -39,14 +37,16 @@ public class AddProductServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-        int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         int price = Integer.parseInt(request.getParameter("price"));
-        String creationdate = request.getParameter("creationdate");
-        Product product = new Product(id, name, price, creationdate);
+        LocalDateTime creation_date = LocalDateTime.parse(request.getParameter("creation_date"));
+        Product product = new Product();
+        product.setName(name);
+        product.setPrice(price);
+        product.setCreationDate(creation_date);
         response.setContentType("text/html;charset=utf-8");
         try {
-            jdbcProductDao.save(product);
+            jdbcProductDao.add(product);
         } catch (NumberFormatException e) {
             throw new RuntimeException("Check new product`s parameters. Cant add to database");
         }
@@ -64,10 +64,12 @@ public class AddProductServlet extends HttpServlet {
 
     public static Map<String, Object> createPageVariablesMap(HttpServletRequest request) {
         Map<String, Object> pageVariables = new HashMap<>();
-        pageVariables.put("id", request.getParameter("id"));
         pageVariables.put("name", request.getParameter("name"));
         pageVariables.put("price", request.getParameter("price"));
-        pageVariables.put("creationdate", request.getParameter("creationdate"));
+        pageVariables.put("creation_date", request.getParameter("creation_date"));
         return pageVariables;
     }
 }
+
+
+

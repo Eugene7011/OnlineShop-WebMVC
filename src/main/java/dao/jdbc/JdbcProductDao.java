@@ -1,6 +1,5 @@
 package dao.jdbc;
 
-import dao.ConnectionFactory;
 import dao.ProductDao;
 import dao.jdbc.mapper.ProductRowMapper;
 import entity.Product;
@@ -23,16 +22,15 @@ public class JdbcProductDao implements ProductDao {
     @Override
     public List<Product> findAll() {
         List<Product> products = new ArrayList<>();
-
         try (Connection connection = connectionFactory.connectionToDatabase();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(FIND_ALL_SQL)) {
             while (resultSet.next()) {
-                Product product = productRowMapper.mapRow(resultSet);
+                Product product = productRowMapper.mapRow(resultSet);//extractRow
                 products.add(product);
             }
         } catch (SQLException exception) {
-            throw new RuntimeException("Can not get all products from database", exception);
+            throw new RuntimeException("Unable to get products from database", exception);
         }
         return products;
     }
@@ -53,7 +51,7 @@ public class JdbcProductDao implements ProductDao {
     }
 
     @Override
-    public void remove(int id) {
+    public void delete(int id) {
         try (Connection connection = connectionFactory.connectionToDatabase();
              PreparedStatement preparedStatement = connection.prepareStatement(DELETE_SQL)) {
 

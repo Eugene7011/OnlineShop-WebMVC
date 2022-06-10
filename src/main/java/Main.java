@@ -8,7 +8,6 @@ public class Main {
     public static void main(String[] args) throws Exception {
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
 
-        context.addServlet(new ServletHolder((new AllProductsOfShopServlet())), "/");
         context.addServlet(new ServletHolder(new AllProductsServlet()), "/products");
         context.addServlet(new ServletHolder(new AddProductServlet()), "/products/add");
         context.addServlet(new ServletHolder(new DeleteProductServlet()), "/products/delete");

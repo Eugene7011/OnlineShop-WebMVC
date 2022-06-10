@@ -102,7 +102,7 @@
                 <td>${product.getPrice()}</td>
                 <td>${product.getCreationDate()}</td>
                 <td>
-                    <a href="/products?id=${product.getId()}" ><button type="button" class="btn btn-success" >EDIT</button></a>
+                    <a href="/products/update" method="POST" ><button type="button" class="btn btn-success" >EDIT</button></a>
                     <a href="/products/delete" ><button type="button" class="btn btn-danger">DELETE</button></a>
                 </td>
             </tr>

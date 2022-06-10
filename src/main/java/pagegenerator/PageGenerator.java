@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Collections;
 import java.util.Map;
 
 public class PageGenerator {
@@ -46,5 +47,9 @@ public class PageGenerator {
 
     private PageGenerator() {
         cfg = new Configuration();
+    }
+
+    public String getPageWithEmptyMap(String filename) {
+        return getPage(filename, Collections.emptyMap());
     }
 }

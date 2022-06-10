@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 public class AddProductServlet extends HttpServlet {
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         PageGenerator pageGenerator = PageGenerator.instance();
         String page = pageGenerator.getPageWithEmptyMap("add_product.html");
         try {

@@ -1,4 +1,4 @@
-package dao;
+package dao.jdbc;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -17,11 +17,7 @@ public class ConnectionFactory {
 
     void loadFileWithDatabaseProperties() {
         try (FileInputStream fileInputStream = new FileInputStream("src/main/resources/application.properties")) {
-            if (fileInputStream != null) {
-                properties.load(fileInputStream);
-            } else {
-                throw new IOException("property File'" + fileInputStream + "'not found");
-            }
+            properties.load(fileInputStream);
         } catch (IOException exception) {
             throw new RuntimeException("Cant find file with properties");
         }
@@ -31,7 +27,6 @@ public class ConnectionFactory {
         loadFileWithDatabaseProperties();
         try {
             Class.forName(properties.getProperty(JDBC_DRIVER));
-
         } catch (ClassNotFoundException e) {
             throw new RuntimeException("JDBC_DRIVER is not running");
         }

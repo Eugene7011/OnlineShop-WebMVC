@@ -5,13 +5,13 @@ import entity.Product;
 import java.util.List;
 
 public interface ProductDao {
-    List<Product> getAllProducts();
+    List<Product> findAll();
 
-    void save(Product product);
+    void add(Product product);
 
-    void remove(int id);
+    void delete(int id);
 
-    void edit(Product product);
+    void update(Product product);
 
     List<Product> search(String searchText);
 }

@@ -21,18 +21,18 @@ public class JdbcProductDao implements ProductDao {
 
     @Override
     public List<Product> findAll() {
-        List<Product> products = new ArrayList<>();
         try (Connection connection = connectionFactory.connectionToDatabase();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(FIND_ALL_SQL)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_SQL);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            List<Product> products = new ArrayList<>();
             while (resultSet.next()) {
-                Product product = productRowMapper.mapRow(resultSet);//extractRow
+                Product product = productRowMapper.mapRow(resultSet);
                 products.add(product);
             }
+            return products;
         } catch (SQLException exception) {
             throw new RuntimeException("Unable to get products from database", exception);
         }
-        return products;
     }
 
     @Override

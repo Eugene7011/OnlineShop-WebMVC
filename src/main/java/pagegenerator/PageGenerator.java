@@ -12,9 +12,7 @@ import java.util.Collections;
 import java.util.Map;
 
 public class PageGenerator {
-
     private static final String HTML_DIR = "templates/pages";
-
     private static PageGenerator pageGenerator;
     private final Configuration cfg;
 
@@ -35,21 +33,11 @@ public class PageGenerator {
         return stream.toString();
     }
 
-    public String getPage(String filename) {
-        Writer stream = new StringWriter();
-        try {
-            Template template = cfg.getTemplate(HTML_DIR + File.separator + filename);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return stream.toString();
-    }
-
     private PageGenerator() {
         cfg = new Configuration();
     }
 
-    public String getPageWithEmptyMap(String filename) {
+    public String getPage(String filename) {
         return getPage(filename, Collections.emptyMap());
     }
 }

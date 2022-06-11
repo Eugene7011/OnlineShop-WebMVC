@@ -20,6 +20,12 @@
     Price: <input type="text" name="price"style=position:absolute;left:100%; ><br><br>
     <input type="submit" class="btn btn-success" name="add" value="Add" style=position:absolute;left:340%;>
 </form>
+
+<#if myOptionalVar??>
+<p></p>
+<p align="center"><strong>${errorMessage}</strong></p>
+</#if>
+
 </body>
 </html>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

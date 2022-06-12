@@ -1,4 +1,4 @@
-package servlets;
+package web.servlets;
 
 import dao.jdbc.JdbcProductDao;
 import entity.Product;
@@ -14,6 +14,7 @@ import java.util.Map;
 
 public class UpdateProductServlet extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 
         Map<String, Object> pageVariables = createPageVariablesMap(request);
@@ -29,6 +30,7 @@ public class UpdateProductServlet extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 
         int id = Integer.parseInt(request.getParameter("id"));

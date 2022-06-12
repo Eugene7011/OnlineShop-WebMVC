@@ -1,4 +1,4 @@
-package servlets;
+package web.servlets;
 
 import dao.jdbc.JdbcProductDao;
 import entity.Product;
@@ -17,15 +17,11 @@ public class AllProductsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-
         Map<String, Object> paramMap = new HashMap<>();
-
         List<Product> products;
         try {
             products = jdbcProductDao.findAll();
-
             paramMap.put("products", products);
-
             PageGenerator pageGenerator = PageGenerator.instance();
             String page = pageGenerator.getPage("allproducts.html", paramMap);
 

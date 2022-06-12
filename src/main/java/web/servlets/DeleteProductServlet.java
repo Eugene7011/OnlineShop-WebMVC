@@ -1,4 +1,4 @@
-package servlets;
+package web.servlets;
 
 import dao.jdbc.JdbcProductDao;
 import jakarta.servlet.http.HttpServlet;
@@ -12,13 +12,14 @@ import java.util.Map;
 
 public class DeleteProductServlet extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 
         Map<String, Object> pageVariables = createPageVariablesMap(request);
 
         PageGenerator pageGenerator = PageGenerator.instance();
 
-        String page = pageGenerator.getPage("deleteproduct.html", pageVariables);
+        String page = pageGenerator.getPage("deleteproduct.html", pageVariables);//deleteproduct.html
 
         try {
             response.getWriter().println(page);
@@ -29,6 +30,7 @@ public class DeleteProductServlet extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 
         String id = request.getParameter("id");

@@ -1,4 +1,4 @@
-package servlets;
+package web.servlets;
 
 import dao.jdbc.JdbcProductDao;
 import entity.Product;
@@ -15,6 +15,7 @@ import java.util.Map;
 public class SearchProductServlet extends HttpServlet {
     private JdbcProductDao jdbcProductDao = new JdbcProductDao();
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 
         System.out.println("start search");
@@ -29,6 +30,7 @@ public class SearchProductServlet extends HttpServlet {
             throw new RuntimeException("Cant search product from database");
         }
     }
+
 }
 
 

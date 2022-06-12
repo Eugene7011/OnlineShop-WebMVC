@@ -22,8 +22,8 @@ public class JdbcProductDao implements ProductDao {
     @Override
     public List<Product> findAll() {
         try (Connection connection = connectionFactory.connectionToDatabase();
-             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_SQL);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(FIND_ALL_SQL)) {
             List<Product> products = new ArrayList<>();
             while (resultSet.next()) {
                 Product product = productRowMapper.mapRow(resultSet);

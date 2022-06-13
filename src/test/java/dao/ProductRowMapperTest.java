@@ -28,7 +28,7 @@ public class ProductRowMapperTest {
         when(resultSet.getInt("id")).thenReturn(1);
         when(resultSet.getString("name")).thenReturn("snowboard");
         when(resultSet.getDouble("price")).thenReturn(3000.00);
-        when(resultSet.getTimestamp("creationdate")).thenReturn(timestamp);
+        when(resultSet.getTimestamp("creation_date")).thenReturn(timestamp);
 
         Product actualProduct = productRowMapper.mapRow(resultSet);
 
@@ -36,6 +36,6 @@ public class ProductRowMapperTest {
         assertEquals(1, actualProduct.getId());
         assertEquals("snowboard", actualProduct.getName());
         assertEquals(3000.00, actualProduct.getPrice());
-        assertEquals(localDateTime.toString(), actualProduct.getCreationDate());
+        assertEquals(localDateTime, actualProduct.getCreationDate());
     }
 }

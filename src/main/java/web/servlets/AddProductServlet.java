@@ -5,7 +5,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import pagegenerator.PageGenerator;
-import security.SecurityService;
 import service.ProductService;
 
 import java.io.IOException;
@@ -15,22 +14,16 @@ import java.util.Map;
 public class AddProductServlet extends HttpServlet {
     private ProductService productService;
     private List<String> userTokens;
-    private SecurityService securityService;
 
-    public AddProductServlet(ProductService productService, SecurityService securityService) {
+    public AddProductServlet(ProductService productService) {
         this.productService = productService;
-        this.securityService = securityService;
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        if (securityService.isAuth(request.getCookies())) {
-            PageGenerator pageGenerator = PageGenerator.instance();
-            String page = pageGenerator.getPage("add_product.html");
-            response.getWriter().write(page);
-        } else {
-            response.sendRedirect("/login");
-        }
+        PageGenerator pageGenerator = PageGenerator.instance();
+        String page = pageGenerator.getPage("add_product.html");
+        response.getWriter().write(page);
     }
 
     @Override

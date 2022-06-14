@@ -30,7 +30,7 @@ public class JdbcUserDao implements UserDao {
             }
             return null;
         } catch (SQLException e) {
-            throw new RuntimeException("Error.Can not search product with text: " + login, e);
+            throw new RuntimeException("Can not search user with : " + login, e);
         }
     }
 }

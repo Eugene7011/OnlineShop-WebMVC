@@ -27,7 +27,13 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.addCookie(securityService.generateCookie());
-        response.sendRedirect("/products");
+        String login = request.getParameter("login");
+        String password = request.getParameter("password");
+
+        if (securityService.checkPassword(login, password)) {
+            response.addCookie(securityService.generateCookie());
+            response.sendRedirect("/*");
+        }
+        response.sendRedirect("/login");
     }
 }

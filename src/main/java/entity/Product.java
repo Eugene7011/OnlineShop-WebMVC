@@ -1,13 +1,15 @@
 package entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
-@NoArgsConstructor
 @Builder
 public class Product {
     private int id;

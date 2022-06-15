@@ -4,18 +4,18 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import security.SecurityService;
+import service.UserService;
 
 import java.io.IOException;
 import java.util.List;
 
 @Slf4j
 public class SecurityFilter implements Filter {
-    private SecurityService securityService;
+    private final UserService userService;
     private final List<String> allowedPath = List.of("/login");
 
-    public SecurityFilter(SecurityService securityService) {
-        this.securityService = securityService;
+    public SecurityFilter(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
@@ -31,7 +31,7 @@ public class SecurityFilter implements Filter {
             }
         }
         log.info("Check if user is authorized");
-        if (securityService.isAuth(httpServletRequest.getCookies())) {
+        if (userService.isAuth(httpServletRequest.getCookies())) {
             chain.doFilter(request, response);
         } else {
             httpServletResponse.sendRedirect("/login");

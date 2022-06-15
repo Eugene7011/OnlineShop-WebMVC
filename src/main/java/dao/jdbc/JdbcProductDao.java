@@ -95,7 +95,7 @@ public class JdbcProductDao implements ProductDao {
             }
             return products;
         } catch (SQLException e) {
-            throw new RuntimeException("Error.Can not search product with text: " + searchText, e);
+            throw new RuntimeException("Can not search product with text: " + searchText, e);
         }
     }
 }

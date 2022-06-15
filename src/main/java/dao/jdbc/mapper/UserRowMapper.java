@@ -12,12 +12,11 @@ public class UserRowMapper {
         String password = resultSet.getString("password");
         String salt = resultSet.getString("salt");
 
-        User user = User.builder().
+        return User.builder().
                 id(id)
                 .login(login)
                 .password(password)
                 .salt(salt)
                 .build();
-        return user;
     }
 }

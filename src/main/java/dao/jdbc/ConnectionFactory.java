@@ -8,18 +8,19 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class ConnectionFactory {
+
     private static final String DB_URL = "db.db_url";
     private static final String JDBC_DRIVER = "db.jdbc_driver";
     private static final String USER = "db.user";
     private static final String PASS = "db.pass";
 
-    Properties properties = new Properties();
+    private final Properties properties = new Properties();
 
-    void loadFileWithDatabaseProperties() {
+    private void loadFileWithDatabaseProperties() {
         try (FileInputStream fileInputStream = new FileInputStream("src/main/resources/application.properties")) {
             properties.load(fileInputStream);
         } catch (IOException exception) {
-            throw new RuntimeException("Cant find file with properties");
+            throw new RuntimeException("Can not load properties");
         }
     }
 
@@ -34,8 +35,9 @@ public class ConnectionFactory {
         try {
             connection = DriverManager.getConnection(properties.getProperty(DB_URL), properties.getProperty(USER), properties.getProperty(PASS));
         } catch (SQLException e) {
-            throw new RuntimeException("Cant connect to database. Check your root, password or user`s name in the database");
+            throw new RuntimeException("Cant connect to database. Check your root, password or user`s name in database");
         }
         return connection;
     }
 }
+

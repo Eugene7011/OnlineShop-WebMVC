@@ -41,7 +41,7 @@ public class AddProductServlet extends HttpServlet {
         }
     }
 
-    public Product getProductFromRequest(HttpServletRequest request) {
+    private Product getProductFromRequest(HttpServletRequest request) {
         return Product.builder().
                 name(request.getParameter("name"))
                 .price(Double.parseDouble(request.getParameter("price")))

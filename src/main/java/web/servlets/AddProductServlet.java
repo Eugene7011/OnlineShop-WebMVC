@@ -8,12 +8,10 @@ import pagegenerator.PageGenerator;
 import service.ProductService;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 public class AddProductServlet extends HttpServlet {
-    private ProductService productService;
-    private List<String> userTokens;
+    private final ProductService productService;
 
     public AddProductServlet(ProductService productService) {
         this.productService = productService;

@@ -4,13 +4,14 @@ import dao.jdbc.JdbcUserDao;
 import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import service.UserService;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SecurityServiceTest {
-    java.util.List<String> userTokens;
     private final JdbcUserDao jdbcUserDao = new JdbcUserDao();
-    private final SecurityService securityService = new SecurityService(userTokens, jdbcUserDao);
+    private final UserService userService = new UserService(jdbcUserDao);
+    private final SecurityService securityService = new SecurityService(userService);
 
     @Test
     @DisplayName("test Encrypt Password With Salt")
@@ -23,7 +24,7 @@ public class SecurityServiceTest {
     }
 
     @Test
-    @DisplayName("testGenerateSalt")
+    @DisplayName("test Generate Salt")
     public void testGenerateSalt() {
         String actualSalt = securityService.getSalt("user");
         String expectedSalt = "4A17982C";
@@ -43,22 +44,42 @@ public class SecurityServiceTest {
     }
 
     @Test
+    @DisplayName("test Login when User And Password are Not correct")
+    public void testLogin_whenUserAndPassword_areNotCorrect() {
+        String expectedToken = "0";
+        String actualToken = securityService.login("user", "NotExistingPassword");
+
+        assertNull(actualToken);
+        assertNotEquals(expectedToken, actualToken);
+    }
+
+    @Test
+    @DisplayName("test Login when User And Password are correct")
+    public void testLogin_whenUserAndPassword_areCorrect() {
+        String expectedToken = "0";
+        String actualToken = securityService.login("user", "pass");
+
+        assertNotNull(actualToken);
+        assertNotEquals(expectedToken, actualToken);
+    }
+
+    @Test
     @DisplayName("test Check Password")
     public void testCheckPassword_whenPasswordIsValid() {
-        assertTrue(securityService.checkPassword("user", "pass"));
+        assertTrue(securityService.isValidCredential("user", "pass"));
     }
 
     @Test
     @DisplayName("test Check Password when Password Is Not Valid")
     public void testCheckPassword_whenPasswordIsNotValid() {
-        assertFalse(securityService.checkPassword("user", "1234"));
+        assertFalse(securityService.isValidCredential("user", "1234"));
     }
 
     @Test
     @DisplayName("test Is Auth False when Cookies Is Null")
     public void testIsAuthFalse_whenCookiesIsNull() {
         Cookie[] cookies = null;
-        assertFalse(securityService.isAuth(cookies));
+        assertFalse(userService.isAuth(cookies));
     }
 
     @Test
@@ -66,7 +87,7 @@ public class SecurityServiceTest {
     void testIsAuthFalseWhenUserNotLoggedIn() {
         Cookie[] cookies = new Cookie[0];
 
-        assertFalse(securityService.isAuth(cookies));
+        assertFalse(userService.isAuth(cookies));
     }
 
     @Test

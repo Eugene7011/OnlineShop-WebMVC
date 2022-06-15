@@ -17,15 +17,13 @@ public class JdbcUserDao implements UserDao {
 
     @Override
     public User findUser(String login) {
-
         try (Connection connection = connectionFactory.connectionToDatabase();
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_USER_SQL)) {
 
             preparedStatement.setString(1, login);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    User user = userRowMapper.mapRow(resultSet);
-                    return user;
+                    return userRowMapper.mapRow(resultSet);
                 }
             }
             return null;

@@ -1,61 +1,46 @@
 package web.servlets;
 
-import dao.jdbc.JdbcProductDao;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import pagegenerator.PageGenerator;
+import service.ProductService;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class DeleteProductServlet extends HttpServlet {
+    private final ProductService productService;
+
+    public DeleteProductServlet(ProductService productService) {
+        this.productService = productService;
+    }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, Object> pageVariables = createPageVariablesMap(request);
-
         PageGenerator pageGenerator = PageGenerator.instance();
+        String page = pageGenerator.getPage("deleteproduct.html", pageVariables);
 
-        String page = pageGenerator.getPage("deleteproduct.html", pageVariables);//deleteproduct.html
-
-        try {
-            response.getWriter().println(page);
-        } catch (IOException e) {
-            throw new RuntimeException("Cant get data from request about delete product");
-        }
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
+        response.getWriter().println(page);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-
         String id = request.getParameter("id");
-
-        response.setContentType("text/html;charset=utf-8");
-
-        JdbcProductDao jdbcProductDao = new JdbcProductDao();
+        productService.delete(Integer.parseInt(id));
         try {
-            jdbcProductDao.delete(Integer.parseInt(id));
-        } catch (NumberFormatException e) {
-            throw new RuntimeException("Cant remove if from database. Try to write id correctly");
-        }
-        try {
+            response.setContentType("text/html;charset=utf-8");
             response.sendRedirect("/products");
         } catch (IOException e) {
-            throw new RuntimeException("Cant show page with deleted user");
-        }
-        try {
-            response.getWriter().close();
-        } catch (IOException exception) {
-            throw new RuntimeException("Cant show update products");
+            throw new RuntimeException("Can not delete product by id from database", e);
         }
     }
 
-    static Map<String, Object> createPageVariablesMap(HttpServletRequest request) {
+    private Map<String, Object> createPageVariablesMap(HttpServletRequest request) {
         Map<String, Object> pageVariables = new HashMap<>();
         pageVariables.put("id", request.getParameter("id"));
 

@@ -1,5 +1,6 @@
 package web.servlets;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -7,14 +8,12 @@ import pagegenerator.PageGenerator;
 import security.SecurityService;
 
 import java.io.IOException;
-import java.util.List;
 
 public class LoginServlet extends HttpServlet {
-    private List<String> userTokens;
-    private SecurityService securityService;
 
-    public LoginServlet(List<String> userTokens, SecurityService securityService) {
-        this.userTokens = userTokens;
+    private final SecurityService securityService;
+
+    public LoginServlet(SecurityService securityService) {
         this.securityService = securityService;
     }
 
@@ -30,10 +29,18 @@ public class LoginServlet extends HttpServlet {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
 
-        if (securityService.checkPassword(login, password)) {
-            response.addCookie(securityService.generateCookie());
+        String token = securityService.login(login, password);
+
+        if (token != null) {
+            response.addCookie(new Cookie("user-token", token));
             response.sendRedirect("/*");
+        } else {
+            PageGenerator pageGenerator = PageGenerator.instance();
+            String page = pageGenerator.getPage("login.html");
+            response.getWriter().write(page);
+            response.getWriter().write("<h3 style=position:absolute;left:33%;>Please enter correct login and password! </h3>");
         }
-        response.sendRedirect("/login");
     }
 }
+
+

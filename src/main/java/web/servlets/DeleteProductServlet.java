@@ -3,8 +3,8 @@ package web.servlets;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import web.util.PageGenerator;
 import service.ProductService;
+import web.util.PageGenerator;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -36,7 +36,7 @@ public class DeleteProductServlet extends HttpServlet {
             response.setContentType("text/html;charset=utf-8");
             response.sendRedirect("/products");
         } catch (IOException e) {
-            throw new RuntimeException("Product is not deleted", e);
+            throw new RuntimeException("Can not delete product by id", e);
         }
     }
 

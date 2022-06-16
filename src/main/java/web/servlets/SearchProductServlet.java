@@ -4,7 +4,7 @@ import entity.Product;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import pagegenerator.PageGenerator;
+import web.util.PageGenerator;
 import service.ProductService;
 
 import java.io.IOException;
@@ -26,7 +26,7 @@ public class SearchProductServlet extends HttpServlet {
         parametersMap.put("products", products);
         try {
             response.setContentType("text/html; charset=utf-8");
-            response.getWriter().println(PageGenerator.instance().getPage("allproducts.html", parametersMap));
+            response.getWriter().println(PageGenerator.getInstance().getPage("allproducts.html", parametersMap));
         } catch (IOException exception) {
             throw new RuntimeException("Cant find product from database");
         }

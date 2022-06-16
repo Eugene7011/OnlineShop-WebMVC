@@ -4,7 +4,7 @@ import entity.Product;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import pagegenerator.PageGenerator;
+import web.util.PageGenerator;
 import service.ProductService;
 
 import java.io.IOException;
@@ -22,7 +22,7 @@ public class UpdateProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, Object> pageVariables = createPageVariablesMap(request);
-        PageGenerator pageGenerator = PageGenerator.instance();
+        PageGenerator pageGenerator = PageGenerator.getInstance();
         String page = pageGenerator.getPage("updateproduct.html", pageVariables);
 
         response.getWriter().write(page);

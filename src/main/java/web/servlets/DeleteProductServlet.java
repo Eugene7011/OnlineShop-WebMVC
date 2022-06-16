@@ -36,7 +36,7 @@ public class DeleteProductServlet extends HttpServlet {
             response.setContentType("text/html;charset=utf-8");
             response.sendRedirect("/products");
         } catch (IOException e) {
-            throw new RuntimeException("Can not delete product by id from database", e);
+            throw new RuntimeException("Product is not deleted", e);
         }
     }
 

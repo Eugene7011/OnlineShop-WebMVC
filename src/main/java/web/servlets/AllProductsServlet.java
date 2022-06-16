@@ -34,7 +34,7 @@ public class AllProductsServlet extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_OK);
             response.getWriter().write(page);
         } catch (IOException exception) {
-            throw new RuntimeException("Can not get all products from database");
+            throw new RuntimeException("Can not get all products from database",exception);
         }
     }
 }

@@ -1,4 +1,4 @@
-package pagegenerator;
+package web.util;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -13,19 +13,17 @@ import java.util.Map;
 
 public class PageGenerator {
     private static final String HTML_DIR = "templates/pages";
-    private static PageGenerator pageGenerator;
-    private final Configuration cfg;
+    private static final PageGenerator INSTANCE = new PageGenerator();
+    private final Configuration configuration;
 
-    public static PageGenerator instance() {
-        if (pageGenerator == null)
-            pageGenerator = new PageGenerator();
-        return pageGenerator;
+    public static PageGenerator getInstance() {
+        return INSTANCE;
     }
 
     public String getPage(String filename, Map<String, Object> data) {
         Writer stream = new StringWriter();
         try {
-            Template template = cfg.getTemplate(HTML_DIR + File.separator + filename);
+            Template template = configuration.getTemplate(HTML_DIR + File.separator + filename);
             template.process(data, stream);
         } catch (IOException | TemplateException e) {
             throw new RuntimeException(e);
@@ -34,7 +32,7 @@ public class PageGenerator {
     }
 
     private PageGenerator() {
-        cfg = new Configuration();
+        configuration = new Configuration();
     }
 
     public String getPage(String filename) {

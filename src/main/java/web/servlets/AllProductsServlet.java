@@ -4,7 +4,7 @@ import entity.Product;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import pagegenerator.PageGenerator;
+import web.util.PageGenerator;
 import service.ProductService;
 
 import java.io.IOException;
@@ -27,7 +27,7 @@ public class AllProductsServlet extends HttpServlet {
         try {
             products = productService.findAll();
             paramMap.put("products", products);
-            PageGenerator pageGenerator = PageGenerator.instance();
+            PageGenerator pageGenerator = PageGenerator.getInstance();
             String page = pageGenerator.getPage("allproducts.html", paramMap);
 
             response.setContentType("text/html;charset=utf-8");

@@ -4,8 +4,8 @@ import entity.Product;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import pagegenerator.PageGenerator;
 import service.ProductService;
+import web.util.PageGenerator;
 
 import java.io.IOException;
 import java.util.Map;
@@ -19,7 +19,7 @@ public class AddProductServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        PageGenerator pageGenerator = PageGenerator.instance();
+        PageGenerator pageGenerator = PageGenerator.getInstance();
         String page = pageGenerator.getPage("add_product.html");
         response.getWriter().write(page);
     }
@@ -33,7 +33,7 @@ public class AddProductServlet extends HttpServlet {
 
         } catch (IOException e) {
             String errorMessage = "Product has not been added. Check and enter correct data in the fields";
-            PageGenerator pageGenerator = PageGenerator.instance();
+            PageGenerator pageGenerator = PageGenerator.getInstance();
 
             Map<String, Object> parameters = Map.of("errorMessage", errorMessage);
             String page = pageGenerator.getPage("add_product.html", parameters);

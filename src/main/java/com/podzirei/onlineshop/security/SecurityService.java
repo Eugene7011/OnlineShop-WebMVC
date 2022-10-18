@@ -33,8 +33,7 @@ public class SecurityService {
 
     public String login(String login, String password) {
         if (isValidCredential(login, password)) {
-            String token = userService.generateCookie().getValue();
-            return token;
+            return userService.generateCookie().getValue();
         }
         return null;
     }
@@ -48,6 +47,7 @@ public class SecurityService {
         return userLogin.getSalt();
     }
 
+    //TODO: check usage if needed
     public String generateSalt() {
         return UUID.randomUUID().toString();
     }

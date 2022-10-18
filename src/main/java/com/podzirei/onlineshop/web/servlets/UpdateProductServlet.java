@@ -21,7 +21,9 @@ public class UpdateProductServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Map<String, Object> pageVariables = createPageVariablesMap(request);
+        Map<String, Object> pageVariables = new HashMap<>();
+        pageVariables.put("id", request.getParameter("id"));
+
         PageGenerator pageGenerator = PageGenerator.getInstance();
         String page = pageGenerator.getPage("updateproduct.html", pageVariables);
 
@@ -45,12 +47,5 @@ public class UpdateProductServlet extends HttpServlet {
         } catch (IOException exception) {
             throw new RuntimeException("Can not update product");
         }
-    }
-
-    private Map<String, Object> createPageVariablesMap(HttpServletRequest request) {
-        Map<String, Object> pageVariables = new HashMap<>();
-        pageVariables.put("id", request.getParameter("id"));
-
-        return pageVariables;
     }
 }

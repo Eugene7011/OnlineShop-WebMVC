@@ -1,6 +1,6 @@
-package dao.jdbc.mapper;
+package com.podzirei.onlineshop.dao.jdbc.mapper;
 
-import entity.Product;
+import com.podzirei.onlineshop.entity.Product;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

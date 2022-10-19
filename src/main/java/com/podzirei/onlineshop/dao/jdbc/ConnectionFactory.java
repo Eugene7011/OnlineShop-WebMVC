@@ -1,4 +1,4 @@
-package dao.jdbc;
+package com.podzirei.onlineshop.dao.jdbc;
 
 import java.io.FileInputStream;
 import java.io.IOException;

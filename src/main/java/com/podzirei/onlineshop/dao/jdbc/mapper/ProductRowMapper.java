@@ -1,6 +1,6 @@
-package dao.jdbc.mapper;
+package com.podzirei.onlineshop.dao.jdbc.mapper;
 
-import entity.Product;
+import com.podzirei.onlineshop.entity.Product;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

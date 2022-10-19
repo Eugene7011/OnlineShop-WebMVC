@@ -1,8 +1,8 @@
-package dao.jdbc;
+package com.podzirei.onlineshop.dao.jdbc;
 
-import dao.ProductDao;
-import dao.jdbc.mapper.ProductRowMapper;
-import entity.Product;
+import com.podzirei.onlineshop.dao.ProductDao;
+import com.podzirei.onlineshop.dao.jdbc.mapper.ProductRowMapper;
+import com.podzirei.onlineshop.entity.Product;
 
 import java.sql.*;
 import java.util.ArrayList;

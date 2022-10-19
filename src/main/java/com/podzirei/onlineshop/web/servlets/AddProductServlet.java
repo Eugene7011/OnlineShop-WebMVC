@@ -1,11 +1,12 @@
-package web.servlets;
+package com.podzirei.onlineshop.web.servlets;
 
-import entity.Product;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import service.ProductService;
-import web.util.PageGenerator;
+import com.podzirei.onlineshop.entity.Product;
+
+import com.podzirei.onlineshop.service.ProductService;
+import com.podzirei.onlineshop.web.util.PageGenerator;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.util.Map;

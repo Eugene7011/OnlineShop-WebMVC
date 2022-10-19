@@ -1,10 +1,11 @@
-package security;
+package com.podzirei.onlineshop.security;
 
-import dao.jdbc.JdbcUserDao;
-import jakarta.servlet.http.Cookie;
+import com.podzirei.onlineshop.dao.jdbc.JdbcUserDao;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import service.UserService;
+import com.podzirei.onlineshop.service.UserService;
+
+import javax.servlet.http.Cookie;
 
 import static org.junit.jupiter.api.Assertions.*;
 

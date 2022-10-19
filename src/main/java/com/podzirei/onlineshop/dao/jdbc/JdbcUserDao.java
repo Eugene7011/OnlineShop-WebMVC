@@ -1,8 +1,8 @@
-package dao.jdbc;
+package com.podzirei.onlineshop.dao.jdbc;
 
-import dao.UserDao;
-import dao.jdbc.mapper.UserRowMapper;
-import entity.User;
+import com.podzirei.onlineshop.dao.UserDao;
+import com.podzirei.onlineshop.dao.jdbc.mapper.UserRowMapper;
+import com.podzirei.onlineshop.entity.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

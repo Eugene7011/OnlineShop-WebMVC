@@ -1,6 +1,6 @@
-package dao.jdbc;
+package com.podzirei.onlineshop.dao.jdbc;
 
-import entity.User;
+import com.podzirei.onlineshop.entity.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

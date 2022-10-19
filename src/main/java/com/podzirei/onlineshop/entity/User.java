@@ -1,4 +1,4 @@
-package entity;
+package com.podzirei.onlineshop.entity;
 
 import lombok.*;
 

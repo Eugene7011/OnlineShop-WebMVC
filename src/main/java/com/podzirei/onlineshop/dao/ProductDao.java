@@ -1,6 +1,6 @@
-package dao;
+package com.podzirei.onlineshop.dao;
 
-import entity.Product;
+import com.podzirei.onlineshop.entity.Product;
 
 import java.util.List;
 

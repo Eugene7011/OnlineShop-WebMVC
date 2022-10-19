@@ -1,6 +1,6 @@
-package dao;
+package com.podzirei.onlineshop.dao;
 
-import entity.User;
+import com.podzirei.onlineshop.entity.User;
 
 public interface UserDao {
     User findUser(String login);

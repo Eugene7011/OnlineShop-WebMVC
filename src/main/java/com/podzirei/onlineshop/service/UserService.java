@@ -1,9 +1,9 @@
-package service;
+package com.podzirei.onlineshop.service;
 
-import dao.UserDao;
-import entity.User;
-import jakarta.servlet.http.Cookie;
+import com.podzirei.onlineshop.dao.UserDao;
+import com.podzirei.onlineshop.entity.User;
 
+import javax.servlet.http.Cookie;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package web.util;
+package com.podzirei.onlineshop.web.util;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;

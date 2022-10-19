@@ -1,8 +1,8 @@
-package security;
+package com.podzirei.onlineshop.security;
 
-import entity.User;
+import com.podzirei.onlineshop.entity.User;
 import org.apache.commons.codec.digest.DigestUtils;
-import service.UserService;
+import com.podzirei.onlineshop.service.UserService;
 
 import java.util.Objects;
 import java.util.UUID;

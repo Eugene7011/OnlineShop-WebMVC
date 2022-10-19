@@ -1,7 +1,7 @@
-package service;
+package com.podzirei.onlineshop.service;
 
-import dao.ProductDao;
-import entity.Product;
+import com.podzirei.onlineshop.dao.ProductDao;
+import com.podzirei.onlineshop.entity.Product;
 
 import java.time.LocalDateTime;
 import java.util.List;

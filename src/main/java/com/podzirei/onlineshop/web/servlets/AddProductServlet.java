@@ -3,6 +3,7 @@ package com.podzirei.onlineshop.web.servlets;
 import com.podzirei.onlineshop.entity.Product;
 
 import com.podzirei.onlineshop.service.ProductService;
+import com.podzirei.onlineshop.service.ServiceLocator;
 import com.podzirei.onlineshop.web.util.PageGenerator;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,11 +13,7 @@ import java.io.IOException;
 import java.util.Map;
 
 public class AddProductServlet extends HttpServlet {
-    private final ProductService productService;
-
-    public AddProductServlet(ProductService productService) {
-        this.productService = productService;
-    }
+    private final ProductService productService = (ProductService) ServiceLocator.getBean("productService");
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

@@ -1,14 +1,17 @@
 package com.podzirei.onlineshop.dao.jdbc;
 
 import com.podzirei.onlineshop.entity.User;
+import com.podzirei.onlineshop.service.ServiceLocator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class JdbcUserDaoITest {
-    private final JdbcUserDao jdbcUserDao = new JdbcUserDao();
+    private final JdbcUserDao jdbcUserDao = (JdbcUserDao) ServiceLocator.getBean("jdbcUserDao");
 
     @Test
     @DisplayName("find User when User Exist then Data Return")
@@ -35,7 +38,6 @@ public class JdbcUserDaoITest {
         User user = jdbcUserDao.findUser("user");
 
         assertNotNull(user);
-        assertNotNull(user.getId());
         assertNotNull(user.getSalt());
         assertNotNull(user.getPassword());
         assertNotNull(user.getLogin());
@@ -46,7 +48,6 @@ public class JdbcUserDaoITest {
     public void findUser_whenUserIsNotExist_thenNullPointerExceptionThrow() {
         Assertions.assertThrows(NullPointerException.class, () -> {
             User user = jdbcUserDao.findUser("Not_Existing_User");
-            assertNull(user.getId());
             assertNull(user.getSalt());
             assertNull(user.getPassword());
             assertNull(user.getLogin());

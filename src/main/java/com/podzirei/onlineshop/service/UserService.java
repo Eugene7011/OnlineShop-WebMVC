@@ -2,19 +2,19 @@ package com.podzirei.onlineshop.service;
 
 import com.podzirei.onlineshop.dao.UserDao;
 import com.podzirei.onlineshop.entity.User;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.servlet.http.Cookie;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@NoArgsConstructor
+@Setter
 public class UserService {
-    private final UserDao userDao;
+    private UserDao userDao;
     private final List<String> userTokens = new ArrayList<>();
-
-    public UserService(UserDao userDao) {
-        this.userDao = userDao;
-    }
 
     public User findUser(String login) {
         return userDao.findUser(login);

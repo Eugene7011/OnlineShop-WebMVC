@@ -2,16 +2,14 @@ package com.podzirei.onlineshop.service;
 
 import com.podzirei.onlineshop.dao.ProductDao;
 import com.podzirei.onlineshop.entity.Product;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Setter
 public class ProductService {
-    private final ProductDao productDao;
-
-    public ProductService(ProductDao productDao) {
-        this.productDao = productDao;
-    }
+    private ProductDao productDao;
 
     public void add(Product product) {
         LocalDateTime now = LocalDateTime.now();

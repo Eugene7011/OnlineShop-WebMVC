@@ -16,19 +16,19 @@
     </properties>
 
     <dependencies>
-        <!-- servlets -->
-<!--        <dependency>-->
-<!--            <groupId>jakarta.servlet</groupId>-->
-<!--            <artifactId>jakarta.servlet-api</artifactId>-->
-<!--            <version>5.0.0-M2</version>-->
-<!--            <scope>provided</scope>-->
-<!--        </dependency>-->
 
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>3.1.0</version>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- IoC -->
+        <dependency>
+            <groupId>com.study</groupId>
+            <artifactId>ioc</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
 
         <!-- web -->
@@ -88,19 +88,15 @@
             <version>4.5.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
-
-<!--    <pluginManagement>-->
-<!--        <plugins>-->
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-war-plugin</artifactId>-->
-<!--                <version>3.3.1</version>-->
-<!--            </plugin>-->
-<!--        </plugins>-->
-<!--    </pluginManagement>-->
 
     <plugins>
 
@@ -115,22 +111,16 @@
             </configuration>
         </plugin>
 
-        <!-- maven-compiler-plugin -->
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.10.1</version>
-            <configuration>
-                <target>17</target>
-                <source>17</source>
-            </configuration>
-        </plugin>
-
         <!-- jetty server -->
         <plugin>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-maven-plugin</artifactId>
-            <version>11.0.9</version>
+            <version>9.4.49.v20220914</version>
+            <configuration>
+                <httpConnector>
+                    <port>8080</port>
+                </httpConnector>
+            </configuration>
         </plugin>
 
     </plugins>

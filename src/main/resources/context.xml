@@ -1,0 +1,32 @@
+<!-- SAX Parser -->
+<beans>
+    <!-- Class <?> clazz =  Class.forName (className)-->
+    <!-- clazz.newInstance() -->
+
+    <bean id="connectionFactory" class="com.podzirei.onlineshop.dao.jdbc.ConnectionFactory"/>
+    <bean id="productRowMapper" class="com.podzirei.onlineshop.dao.jdbc.mapper.ProductRowMapper"/>
+    <bean id="userRowMapper" class="com.podzirei.onlineshop.dao.jdbc.mapper.UserRowMapper"/>
+
+    <bean id="jdbcUserDao" class="com.podzirei.onlineshop.dao.jdbc.JdbcUserDao">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="userRowMapper" ref="userRowMapper"/>
+    </bean>
+
+    <bean id="jdbcProductDao" class="com.podzirei.onlineshop.dao.jdbc.JdbcProductDao">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="productRowMapper" ref="productRowMapper"/>
+    </bean>
+
+    <bean id="userService" class="com.podzirei.onlineshop.service.UserService">
+        <property name="userDao" ref="jdbcUserDao"/>
+    </bean>
+
+    <bean id="productService" class="com.podzirei.onlineshop.service.ProductService">
+        <property name="productDao" ref="jdbcProductDao"/>
+    </bean>
+
+    <bean id="securityService" class="com.podzirei.onlineshop.security.SecurityService">
+        <property name="userService" ref="userService"/>
+    </bean>
+
+</beans>

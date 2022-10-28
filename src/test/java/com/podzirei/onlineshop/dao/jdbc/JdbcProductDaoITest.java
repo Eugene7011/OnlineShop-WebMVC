@@ -1,16 +1,19 @@
 package com.podzirei.onlineshop.dao.jdbc;
 
 import com.podzirei.onlineshop.entity.Product;
+import com.podzirei.onlineshop.service.ServiceLocator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class JdbcProductDaoITest {
-    private final JdbcProductDao jdbcProductDao = new JdbcProductDao();
+    private final JdbcProductDao jdbcProductDao = (JdbcProductDao) ServiceLocator.getBean("jdbcProductDao");
 
     @Test
     @DisplayName("when FindAll then Return Not Null Data")

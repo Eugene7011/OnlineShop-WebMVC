@@ -1,18 +1,22 @@
 package com.podzirei.onlineshop.security;
 
-import com.podzirei.onlineshop.dao.jdbc.JdbcUserDao;
+import com.podzirei.onlineshop.service.ServiceLocator;
+import com.podzirei.onlineshop.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import com.podzirei.onlineshop.service.UserService;
 
 import javax.servlet.http.Cookie;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SecurityServiceTest {
-    private final JdbcUserDao jdbcUserDao = new JdbcUserDao();
-    private final UserService userService = new UserService(jdbcUserDao);
-    private final SecurityService securityService = new SecurityService(userService);
+    private final UserService userService = (UserService) ServiceLocator.getBean("userService");
+    private final SecurityService securityService = (SecurityService) ServiceLocator.getBean("securityService");
 
     @Test
     @DisplayName("test Encrypt Password With Salt")
@@ -91,13 +95,4 @@ public class SecurityServiceTest {
         assertFalse(userService.isAuth(cookies));
     }
 
-    @Test
-    @DisplayName("test Generate Random Salt")
-    public void testGenerateRandomSalt() {
-        String actualSalt = securityService.generateSalt();
-        String expectedSalt = securityService.generateSalt();
-
-        assertNotNull(actualSalt);
-        assertNotEquals(expectedSalt, actualSalt);
-    }
 }

@@ -1,18 +1,17 @@
 package com.podzirei.onlineshop.security;
 
 import com.podzirei.onlineshop.entity.User;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.apache.commons.codec.digest.DigestUtils;
 import com.podzirei.onlineshop.service.UserService;
 
 import java.util.Objects;
-import java.util.UUID;
 
+@NoArgsConstructor
+@Setter
 public class SecurityService {
-    private final UserService userService;
-
-    public SecurityService(UserService userService) {
-        this.userService = userService;
-    }
+    private UserService userService;
 
     public String encryptPasswordWithSalt(String password, String login) {
         String salt = getSalt(login);
@@ -47,10 +46,6 @@ public class SecurityService {
         return userLogin.getSalt();
     }
 
-    //TODO: check usage if needed
-    public String generateSalt() {
-        return UUID.randomUUID().toString();
-    }
 }
 
 

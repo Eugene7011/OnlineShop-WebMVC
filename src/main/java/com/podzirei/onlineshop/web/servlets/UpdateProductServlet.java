@@ -1,6 +1,7 @@
 package com.podzirei.onlineshop.web.servlets;
 
 import com.podzirei.onlineshop.entity.Product;
+import com.podzirei.onlineshop.service.ServiceLocator;
 import com.podzirei.onlineshop.web.util.PageGenerator;
 import com.podzirei.onlineshop.service.ProductService;
 
@@ -13,11 +14,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UpdateProductServlet extends HttpServlet {
-    private final ProductService productService;
 
-    public UpdateProductServlet(ProductService productService) {
-        this.productService = productService;
-    }
+    private final ProductService productService = (ProductService) ServiceLocator.getBean("productService");
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

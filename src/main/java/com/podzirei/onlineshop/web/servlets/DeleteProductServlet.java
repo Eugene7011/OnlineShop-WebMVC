@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.podzirei.onlineshop.service.ProductService;
+import com.podzirei.onlineshop.service.ServiceLocator;
 import com.podzirei.onlineshop.web.util.PageGenerator;
 
 import java.io.IOException;
@@ -11,11 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DeleteProductServlet extends HttpServlet {
-    private final ProductService productService;
 
-    public DeleteProductServlet(ProductService productService) {
-        this.productService = productService;
-    }
+    private final ProductService productService = (ProductService) ServiceLocator.getBean("productService");
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

@@ -3,17 +3,23 @@
     <!-- Class <?> clazz =  Class.forName (className)-->
     <!-- clazz.newInstance() -->
 
-    <bean id="connectionFactory" class="com.podzirei.onlineshop.dao.jdbc.ConnectionFactory"/>
+    <bean id="pgSimpleDataSource" class="org.postgresql.ds.PGSimpleDataSource">
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="databaseName" value="${jdbc.databaseName}"/>
+        <property name="portNumber" value="${jdbc.portNumber}"/>
+    </bean>
+
     <bean id="productRowMapper" class="com.podzirei.onlineshop.dao.jdbc.mapper.ProductRowMapper"/>
     <bean id="userRowMapper" class="com.podzirei.onlineshop.dao.jdbc.mapper.UserRowMapper"/>
 
     <bean id="jdbcUserDao" class="com.podzirei.onlineshop.dao.jdbc.JdbcUserDao">
-        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="pgSimpleDataSource" ref="pgSimpleDataSource"/>
         <property name="userRowMapper" ref="userRowMapper"/>
     </bean>
 
     <bean id="jdbcProductDao" class="com.podzirei.onlineshop.dao.jdbc.JdbcProductDao">
-        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="pgSimpleDataSource" ref="pgSimpleDataSource"/>
         <property name="productRowMapper" ref="productRowMapper"/>
     </bean>
 
@@ -28,5 +34,7 @@
     <bean id="securityService" class="com.podzirei.onlineshop.security.SecurityService">
         <property name="userService" ref="userService"/>
     </bean>
+
+    <bean id="defaultPropertyPlaceholder" class="com.podzirei.onlineshop.processor.DefaultPropertyPlaceholder"/>
 
 </beans>

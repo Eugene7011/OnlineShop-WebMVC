@@ -4,6 +4,7 @@ import com.podzirei.onlineshop.dao.ProductDao;
 import com.podzirei.onlineshop.dao.jdbc.mapper.ProductRowMapper;
 import com.podzirei.onlineshop.entity.Product;
 import lombok.Setter;
+import org.postgresql.ds.PGSimpleDataSource;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,7 +18,7 @@ import java.util.List;
 @Setter
 public class JdbcProductDao implements ProductDao {
 
-    private ConnectionFactory connectionFactory;
+    private PGSimpleDataSource pgSimpleDataSource;
     private ProductRowMapper productRowMapper;
 
     private static final String FIND_ALL_SQL = "SELECT id, name, price, creation_date FROM products;";
@@ -28,7 +29,7 @@ public class JdbcProductDao implements ProductDao {
 
     @Override
     public List<Product> findAll() {
-        try (Connection connection = connectionFactory.connectionToDatabase();
+        try (Connection connection = pgSimpleDataSource.getConnection();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(FIND_ALL_SQL)) {
             List<Product> products = new ArrayList<>();
@@ -44,7 +45,7 @@ public class JdbcProductDao implements ProductDao {
 
     @Override
     public void add(Product product) {
-        try (Connection connection = connectionFactory.connectionToDatabase();
+        try (Connection connection = pgSimpleDataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(ADD_SQL)) {
 
             preparedStatement.setString(1, product.getName());
@@ -59,7 +60,7 @@ public class JdbcProductDao implements ProductDao {
 
     @Override
     public void delete(int id) {
-        try (Connection connection = connectionFactory.connectionToDatabase();
+        try (Connection connection = pgSimpleDataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(DELETE_SQL)) {
 
             preparedStatement.setInt(1, Integer.parseInt(String.valueOf(id)));
@@ -71,7 +72,7 @@ public class JdbcProductDao implements ProductDao {
 
     @Override
     public void update(Product product) {
-        try (Connection connection = connectionFactory.connectionToDatabase();
+        try (Connection connection = pgSimpleDataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_SQL)) {
 
             preparedStatement.setLong(4, product.getId());
@@ -89,7 +90,7 @@ public class JdbcProductDao implements ProductDao {
         String searchWord = "%" + searchText + "%";
         List<Product> products = new ArrayList<>();
 
-        try (Connection connection = connectionFactory.connectionToDatabase();
+        try (Connection connection = pgSimpleDataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SEARCH_SQL)) {
 
             preparedStatement.setString(1, searchWord);

@@ -2,12 +2,16 @@ package com.podzirei.onlineshop.service;
 
 import com.podzirei.onlineshop.dao.ProductDao;
 import com.podzirei.onlineshop.entity.Product;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Setter
 public class ProductService {
-    private final ProductDao productDao;
+    @Autowired
+    private ProductDao productDao;
 
     public ProductService(ProductDao productDao) {
         this.productDao = productDao;

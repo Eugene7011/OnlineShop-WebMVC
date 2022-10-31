@@ -22,14 +22,14 @@
     </bean>
 
     <bean id="productDao" class="com.podzirei.onlineshop.dao.jdbc.JdbcProductDao">
-        <property name="pgSimpleDataSource" ref="pgSimpleDataSource"/>
+        <property name="connectionFactory" ref="connectionFactory"/>
     </bean>
 
-    <bean id="pgSimpleDataSource" class="org.postgresql.ds.PGSimpleDataSource">
+    <bean id="connectionFactory" class="com.podzirei.onlineshop.dao.jdbc.ConnectionFactory">
         <property name="user" value="${db.user}"/>
         <property name="password" value="${db.pass}"/>
-        <property name="databaseName" value="${db.database_name}"/>
-        <property name="portNumber" value="${db.port_number}"/>
+        <property name="url" value="{$db.db_url}"/>
+        <property name="driver" value="${db.jdbc_driver}"/>
     </bean>
 
 </beans>

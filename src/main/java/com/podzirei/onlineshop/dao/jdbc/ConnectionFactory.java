@@ -1,5 +1,7 @@
 package com.podzirei.onlineshop.dao.jdbc;
 
+import lombok.Setter;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -7,25 +9,17 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+@Setter
 public class ConnectionFactory {
 
-    private static final String DB_URL = "db.db_url";
-    private static final String JDBC_DRIVER = "db.jdbc_driver";
-    private static final String USER = "db.user";
-    private static final String PASS = "db.pass";
+    private String url;
+    private String driver;
+    private String user;
+    private String password;
 
     private final Properties properties = new Properties();
 
-    private void loadFileWithDatabaseProperties() {
-        try (FileInputStream fileInputStream = new FileInputStream("src/main/resources/application.properties")) {
-            properties.load(fileInputStream);
-        } catch (IOException exception) {
-            throw new RuntimeException("Can not load properties");
-        }
-    }
-
     public Connection connectionToDatabase() {
-        loadFileWithDatabaseProperties();
         try {
             Class.forName(properties.getProperty(JDBC_DRIVER));
         } catch (ClassNotFoundException e) {

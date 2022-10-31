@@ -3,14 +3,18 @@ package com.podzirei.onlineshop.dao.jdbc;
 import com.podzirei.onlineshop.dao.ProductDao;
 import com.podzirei.onlineshop.dao.jdbc.mapper.ProductRowMapper;
 import com.podzirei.onlineshop.entity.Product;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Setter
 public class JdbcProductDao implements ProductDao {
 
-    private final ConnectionFactory connectionFactory = new ConnectionFactory();
+    @Autowired
+    private ConnectionFactory connectionFactory;
     private final ProductRowMapper productRowMapper = new ProductRowMapper();
 
     private static final String FIND_ALL_SQL = "SELECT id, name, price, creation_date FROM products;";

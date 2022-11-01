@@ -1,29 +1,36 @@
-//package com.podzirei.onlineshop.web.servlets;
+//package com.podzirei.onlineshop.web.controllers;
+//
+//import com.podzirei.onlineshop.security.SecurityService;
+//import com.podzirei.onlineshop.web.util.PageGenerator;
+//import lombok.Getter;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.stereotype.Controller;
+//import org.springframework.web.bind.annotation.RequestMapping;
+//import org.springframework.web.bind.annotation.RequestMethod;
+//import org.springframework.web.bind.annotation.ResponseBody;
 //
 //import javax.servlet.http.Cookie;
-//import javax.servlet.http.HttpServlet;
 //import javax.servlet.http.HttpServletRequest;
 //import javax.servlet.http.HttpServletResponse;
-//
-//import com.podzirei.onlineshop.service.ServiceLocator;
-//import com.podzirei.onlineshop.web.util.PageGenerator;
-//import com.podzirei.onlineshop.security.SecurityService;
-//
 //import java.io.IOException;
 //
-//public class LoginServlet extends HttpServlet {
+//@Controller
+//@Getter
+//public class LoginController {
 //
-//    private final SecurityService securityService = (SecurityService) ServiceLocator.getBean("securityService");
+//    @Autowired
+//    private SecurityService securityService;
 //
-//    @Override
-//    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//    @RequestMapping(path = "/login", method = RequestMethod.GET)
+//    @ResponseBody
+//    protected void loginGet(HttpServletResponse response) throws IOException {
 //        PageGenerator pageGenerator = PageGenerator.getInstance();
 //        String page = pageGenerator.getPage("login.html");
 //        response.getWriter().write(page);
 //    }
 //
-//    @Override
-//    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//    @RequestMapping(path = "/login", method = RequestMethod.POST)
+//    protected void loginPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 //        String login = request.getParameter("login");
 //        String password = request.getParameter("password");
 //
@@ -31,6 +38,7 @@
 //
 //        if (token != null) {
 //            response.addCookie(new Cookie("user-token", token));
+//
 //            response.sendRedirect("/*");
 //        } else {
 //            PageGenerator pageGenerator = PageGenerator.getInstance();
@@ -40,5 +48,3 @@
 //        }
 //    }
 //}
-//
-//

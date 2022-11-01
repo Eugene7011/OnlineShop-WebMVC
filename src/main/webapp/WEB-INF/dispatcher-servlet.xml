@@ -21,15 +21,30 @@
         <property name="productDao" ref="productDao"/>
     </bean>
 
+    <bean id="userService" class="com.podzirei.onlineshop.service.UserService">
+        <property name="userDao" ref="userDao"/>
+    </bean>
+
+    <bean id="securityService" class="com.podzirei.onlineshop.security.SecurityService">
+        <property name="userService" ref="userService"/>
+    </bean>
+
     <bean id="productDao" class="com.podzirei.onlineshop.dao.jdbc.JdbcProductDao">
+        <property name="connectionFactory" ref="connectionFactory"/>
+    </bean>
+
+    <bean id="userDao" class="com.podzirei.onlineshop.dao.jdbc.JdbcUserDao">
         <property name="connectionFactory" ref="connectionFactory"/>
     </bean>
 
     <bean id="connectionFactory" class="com.podzirei.onlineshop.dao.jdbc.ConnectionFactory">
         <property name="user" value="${db.user}"/>
         <property name="password" value="${db.pass}"/>
-        <property name="url" value="{$db.db_url}"/>
-        <property name="driver" value="${db.jdbc_driver}"/>
+        <property name="url" value="${db.db_url}"/>
     </bean>
+
+<!--    <bean id="securityFilter" class="com.podzirei.onlineshop.web.security.SecurityFilter">-->
+<!--        <property name="userService" ref="userService"/>-->
+<!--    </bean>-->
 
 </beans>

@@ -4,10 +4,12 @@ import com.podzirei.onlineshop.dao.ProductDao;
 import com.podzirei.onlineshop.entity.Product;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Service
 @Setter
 public class ProductService {
     @Autowired

@@ -2,14 +2,20 @@ package com.podzirei.onlineshop.service;
 
 import com.podzirei.onlineshop.dao.UserDao;
 import com.podzirei.onlineshop.entity.User;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Service
+@Setter
 public class UserService {
-    private final UserDao userDao;
+    @Autowired
+    private UserDao userDao;
     private final List<String> userTokens = new ArrayList<>();
 
     public UserService(UserDao userDao) {

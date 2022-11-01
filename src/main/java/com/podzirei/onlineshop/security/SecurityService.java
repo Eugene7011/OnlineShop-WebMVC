@@ -1,14 +1,20 @@
 package com.podzirei.onlineshop.security;
 
 import com.podzirei.onlineshop.entity.User;
+import lombok.Setter;
 import org.apache.commons.codec.digest.DigestUtils;
 import com.podzirei.onlineshop.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 import java.util.UUID;
 
+@Service
+@Setter
 public class SecurityService {
-    private final UserService userService;
+    @Autowired
+    private UserService userService;
 
     public SecurityService(UserService userService) {
         this.userService = userService;

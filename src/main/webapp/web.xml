@@ -1,0 +1,79 @@
+<!--<?xml version="1.0" encoding="UTF-8" ?>-->
+
+<!--<web-app>-->
+
+<!--    <servlet>-->
+<!--        <servlet-name>dispatcher</servlet-name>-->
+<!--        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>-->
+<!--        <load-on-startup>1</load-on-startup>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>dispatcher</servlet-name>-->
+<!--        <url-pattern>/</url-pattern>-->
+<!--    </servlet-mapping>-->
+
+<!--&lt;!&ndash;    <servlet>&ndash;&gt;-->
+<!--&lt;!&ndash;        <servlet-name>AllProductsServlet</servlet-name>&ndash;&gt;-->
+<!--&lt;!&ndash;        <servlet-class>com.podzirei.onlineshop.web.servlets.AllProductsServlet</servlet-class>&ndash;&gt;-->
+<!--&lt;!&ndash;    </servlet>&ndash;&gt;-->
+<!--&lt;!&ndash;    <servlet-mapping>&ndash;&gt;-->
+<!--&lt;!&ndash;        <servlet-name>AllProductsServlet</servlet-name>&ndash;&gt;-->
+<!--&lt;!&ndash;        <url-pattern>/products</url-pattern>&ndash;&gt;-->
+<!--&lt;!&ndash;        <url-pattern>/*</url-pattern>&ndash;&gt;-->
+<!--&lt;!&ndash;    </servlet-mapping>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    <servlet>&ndash;&gt;-->
+<!--&lt;!&ndash;        <servlet-name>AddProductServlet</servlet-name>&ndash;&gt;-->
+<!--&lt;!&ndash;        <servlet-class>com.podzirei.onlineshop.web.servlets.AddProductServlet</servlet-class>&ndash;&gt;-->
+<!--&lt;!&ndash;    </servlet>&ndash;&gt;-->
+<!--&lt;!&ndash;    <servlet-mapping>&ndash;&gt;-->
+<!--&lt;!&ndash;        <servlet-name>AddProductServlet</servlet-name>&ndash;&gt;-->
+<!--&lt;!&ndash;        <url-pattern>/products/add</url-pattern>&ndash;&gt;-->
+<!--&lt;!&ndash;    </servlet-mapping>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    <servlet>&ndash;&gt;-->
+<!--&lt;!&ndash;        <servlet-name>DeleteProductServlet</servlet-name>&ndash;&gt;-->
+<!--&lt;!&ndash;        <servlet-class>com.podzirei.onlineshop.web.servlets.DeleteProductServlet</servlet-class>&ndash;&gt;-->
+<!--&lt;!&ndash;    </servlet>&ndash;&gt;-->
+<!--&lt;!&ndash;    <servlet-mapping>&ndash;&gt;-->
+<!--&lt;!&ndash;        <servlet-name>DeleteProductServlet</servlet-name>&ndash;&gt;-->
+<!--&lt;!&ndash;        <url-pattern>/products/delete</url-pattern>&ndash;&gt;-->
+<!--&lt;!&ndash;    </servlet-mapping>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    <servlet>&ndash;&gt;-->
+<!--&lt;!&ndash;        <servlet-name>UpdateProductServlet</servlet-name>&ndash;&gt;-->
+<!--&lt;!&ndash;        <servlet-class>com.podzirei.onlineshop.web.servlets.UpdateProductServlet</servlet-class>&ndash;&gt;-->
+<!--&lt;!&ndash;    </servlet>&ndash;&gt;-->
+<!--&lt;!&ndash;    <servlet-mapping>&ndash;&gt;-->
+<!--&lt;!&ndash;        <servlet-name>UpdateProductServlet</servlet-name>&ndash;&gt;-->
+<!--&lt;!&ndash;        <url-pattern>/products/update</url-pattern>&ndash;&gt;-->
+<!--&lt;!&ndash;    </servlet-mapping>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    <servlet>&ndash;&gt;-->
+<!--&lt;!&ndash;        <servlet-name>SearchProductServlet</servlet-name>&ndash;&gt;-->
+<!--&lt;!&ndash;        <servlet-class>com.podzirei.onlineshop.web.servlets.SearchProductServlet</servlet-class>&ndash;&gt;-->
+<!--&lt;!&ndash;    </servlet>&ndash;&gt;-->
+<!--&lt;!&ndash;    <servlet-mapping>&ndash;&gt;-->
+<!--&lt;!&ndash;        <servlet-name>SearchProductServlet</servlet-name>&ndash;&gt;-->
+<!--&lt;!&ndash;        <url-pattern>/products/search</url-pattern>&ndash;&gt;-->
+<!--&lt;!&ndash;    </servlet-mapping>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    <servlet>&ndash;&gt;-->
+<!--&lt;!&ndash;        <servlet-name>LoginServlet</servlet-name>&ndash;&gt;-->
+<!--&lt;!&ndash;        <servlet-class>com.podzirei.onlineshop.web.servlets.LoginServlet</servlet-class>&ndash;&gt;-->
+<!--&lt;!&ndash;    </servlet>&ndash;&gt;-->
+<!--&lt;!&ndash;    <servlet-mapping>&ndash;&gt;-->
+<!--&lt;!&ndash;        <servlet-name>LoginServlet</servlet-name>&ndash;&gt;-->
+<!--&lt;!&ndash;        <url-pattern>/login</url-pattern>&ndash;&gt;-->
+<!--&lt;!&ndash;    </servlet-mapping>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    <filter>&ndash;&gt;-->
+<!--&lt;!&ndash;        <filter-name>SecurityFilter</filter-name>&ndash;&gt;-->
+<!--&lt;!&ndash;        <filter-class>com.podzirei.onlineshop.web.security.SecurityFilter</filter-class>&ndash;&gt;-->
+<!--&lt;!&ndash;    </filter>&ndash;&gt;-->
+<!--&lt;!&ndash;    <filter-mapping>&ndash;&gt;-->
+<!--&lt;!&ndash;        <filter-name>SecurityFilter</filter-name>&ndash;&gt;-->
+<!--&lt;!&ndash;        <url-pattern>/*</url-pattern>&ndash;&gt;-->
+<!--&lt;!&ndash;    </filter-mapping>&ndash;&gt;-->
+
+<!--</web-app>-->

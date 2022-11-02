@@ -1,18 +1,29 @@
 package com.podzirei.onlineshop.security;
 
-import com.podzirei.onlineshop.dao.jdbc.JdbcUserDao;
+import com.podzirei.onlineshop.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import com.podzirei.onlineshop.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 
 import javax.servlet.http.Cookie;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@SpringJUnitWebConfig
+@ContextConfiguration(locations = "classpath:WEB-INF/test-context.xml")
 public class SecurityServiceTest {
-    private final JdbcUserDao jdbcUserDao = new JdbcUserDao();
-    private final UserService userService = new UserService(jdbcUserDao);
-    private final SecurityService securityService = new SecurityService(userService);
+
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private SecurityService securityService;
 
     @Test
     @DisplayName("test Encrypt Password With Salt")

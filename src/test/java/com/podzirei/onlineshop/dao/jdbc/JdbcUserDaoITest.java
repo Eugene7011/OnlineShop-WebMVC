@@ -4,11 +4,20 @@ import com.podzirei.onlineshop.entity.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
+@SpringJUnitWebConfig
+@ContextConfiguration(locations = "classpath:WEB-INF/test-context.xml")
 public class JdbcUserDaoITest {
-    private final JdbcUserDao jdbcUserDao = new JdbcUserDao();
+
+    @Autowired
+    private JdbcUserDao jdbcUserDao;
 
     @Test
     @DisplayName("find User when User Exist then Data Return")
@@ -35,7 +44,6 @@ public class JdbcUserDaoITest {
         User user = jdbcUserDao.findUser("user");
 
         assertNotNull(user);
-        assertNotNull(user.getId());
         assertNotNull(user.getSalt());
         assertNotNull(user.getPassword());
         assertNotNull(user.getLogin());
@@ -46,7 +54,6 @@ public class JdbcUserDaoITest {
     public void findUser_whenUserIsNotExist_thenNullPointerExceptionThrow() {
         Assertions.assertThrows(NullPointerException.class, () -> {
             User user = jdbcUserDao.findUser("Not_Existing_User");
-            assertNull(user.getId());
             assertNull(user.getSalt());
             assertNull(user.getPassword());
             assertNull(user.getLogin());

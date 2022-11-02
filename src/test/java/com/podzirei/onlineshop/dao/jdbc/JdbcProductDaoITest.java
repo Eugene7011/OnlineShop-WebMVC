@@ -3,14 +3,23 @@ package com.podzirei.onlineshop.dao.jdbc;
 import com.podzirei.onlineshop.entity.Product;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+@SpringJUnitWebConfig
+@ContextConfiguration(locations = "classpath:WEB-INF/test-context.xml")
 public class JdbcProductDaoITest {
-    private final JdbcProductDao jdbcProductDao = new JdbcProductDao();
+
+    @Autowired
+    private JdbcProductDao jdbcProductDao;
 
     @Test
     @DisplayName("when FindAll then Return Not Null Data")
@@ -18,9 +27,7 @@ public class JdbcProductDaoITest {
         List<Product> products = jdbcProductDao.findAll();
         assertFalse(products.isEmpty());
         for (Product product : products) {
-            assertNotNull(product.getId());
             assertNotNull(product.getName());
-            assertNotNull(product.getPrice());
             assertNotNull(product.getCreationDate());
         }
     }

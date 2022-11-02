@@ -37,6 +37,14 @@
         <property name="connectionFactory" ref="connectionFactory"/>
     </bean>
 
+    <bean id="dataSource" class="org.postgresql.ds.PGSimpleDataSource">
+        <property name="user" value="${db.user}"/>
+        <property name="password" value="${db.pass}"/>
+        <property name="databaseName" value="${db.pass}"/>
+
+        <property name="url" value="${db.db_url}"/>
+    </bean>
+
     <bean id="connectionFactory" class="com.podzirei.onlineshop.dao.jdbc.ConnectionFactory">
         <property name="user" value="${db.user}"/>
         <property name="password" value="${db.pass}"/>

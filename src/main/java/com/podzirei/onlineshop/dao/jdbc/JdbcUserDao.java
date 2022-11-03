@@ -6,6 +6,7 @@ import com.podzirei.onlineshop.entity.User;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,14 +15,14 @@ import java.sql.SQLException;
 @Setter
 public class JdbcUserDao implements UserDao {
     @Autowired
-    private ConnectionFactory connectionFactory ;
+    private DataSource dataSource;
     private final UserRowMapper userRowMapper = new UserRowMapper();
 
     private static final String FIND_USER_SQL = "SELECT id, login, password, salt FROM users WHERE login=?";
 
     @Override
     public User findUser(String login) {
-        try (Connection connection = connectionFactory.connectionToDatabase();
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_USER_SQL)) {
 
             preparedStatement.setString(1, login);

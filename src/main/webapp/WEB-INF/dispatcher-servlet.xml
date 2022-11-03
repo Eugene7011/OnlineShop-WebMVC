@@ -15,7 +15,7 @@
 
     <mvc:annotation-driven/>
 
-    <context:property-placeholder location="classpath:application.properties"/>
+    <context:property-placeholder location="classpath:pg-application.properties"/>
 
     <bean id="productService" class="com.podzirei.onlineshop.service.ProductService">
         <property name="productDao" ref="productDao"/>
@@ -30,25 +30,18 @@
     </bean>
 
     <bean id="productDao" class="com.podzirei.onlineshop.dao.jdbc.JdbcProductDao">
-        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="dataSource" ref="dataSource"/>
     </bean>
 
     <bean id="userDao" class="com.podzirei.onlineshop.dao.jdbc.JdbcUserDao">
-        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="dataSource" ref="dataSource"/>
     </bean>
 
     <bean id="dataSource" class="org.postgresql.ds.PGSimpleDataSource">
         <property name="user" value="${db.user}"/>
         <property name="password" value="${db.pass}"/>
-        <property name="databaseName" value="${db.pass}"/>
-
-        <property name="url" value="${db.db_url}"/>
-    </bean>
-
-    <bean id="connectionFactory" class="com.podzirei.onlineshop.dao.jdbc.ConnectionFactory">
-        <property name="user" value="${db.user}"/>
-        <property name="password" value="${db.pass}"/>
-        <property name="url" value="${db.db_url}"/>
+        <property name="databaseName" value="${db.name}"/>
+        <property name="portNumbers" value="${db.port}"/>
     </bean>
 
     <bean id="applicationContextProvider" class="com.podzirei.onlineshop.config.ApplicationContextProvider"/>

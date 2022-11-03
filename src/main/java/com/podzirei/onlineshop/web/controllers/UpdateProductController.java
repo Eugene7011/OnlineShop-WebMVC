@@ -2,19 +2,14 @@ package com.podzirei.onlineshop.web.controllers;
 
 import com.podzirei.onlineshop.entity.Product;
 import com.podzirei.onlineshop.service.ProductService;
-import com.podzirei.onlineshop.web.util.PageGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 
 @Controller
 @RequestMapping(path = "/products/update")
@@ -24,31 +19,24 @@ public class UpdateProductController {
     private ProductService productService;
 
     @GetMapping
-    public void updateGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Map<String, Object> pageVariables = new HashMap<>();
-        pageVariables.put("id", request.getParameter("id"));
-
-        PageGenerator pageGenerator = PageGenerator.getInstance();
-        String page = pageGenerator.getPage("updateproduct.html", pageVariables);
-
-        response.getWriter().write(page);
-        response.setContentType("text/html;charset=utf-8");
-        response.setStatus(HttpServletResponse.SC_OK);
+    public String updateGetPage() {
+        return "updateproduct";
     }
 
     @PostMapping
-    public void updatePost(HttpServletRequest request, HttpServletResponse response) {
-        int id = Integer.parseInt(request.getParameter("id"));
-        String name = request.getParameter("name");
-        int price = Integer.parseInt(request.getParameter("price"));
-        LocalDateTime creation_date = LocalDateTime.parse(request.getParameter("creation_date"));
+    public String updatePost(@RequestParam(value = "id") String id,
+                             @RequestParam(value = "name") String name,
+                             @RequestParam(value = "price") String price,
+                             @RequestParam(value = "creation_date") String creationDate) {
 
-        Product product = new Product(id, name, price, creation_date);
+        LocalDateTime date = LocalDateTime.parse(creationDate);
+
+        Product product = new Product(Integer.parseInt(id), name,
+                Double.parseDouble(price), date);
         productService.update(product);
         try {
-            response.setContentType("text/html;charset=utf-8");
-            response.sendRedirect("/products");
-        } catch (IOException exception) {
+            return "redirect:/products";
+        } catch (Exception exception) {
             throw new RuntimeException("Can not update product");
         }
     }

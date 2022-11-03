@@ -3,6 +3,7 @@ package com.podzirei.onlineshop.dao.jdbc;
 import com.podzirei.onlineshop.dao.ProductDao;
 import com.podzirei.onlineshop.dao.jdbc.mapper.ProductRowMapper;
 import com.podzirei.onlineshop.entity.Product;
+import lombok.Getter;
 import lombok.Setter;
 import org.postgresql.ds.PGSimpleDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +15,14 @@ import java.util.List;
 
 
 @Setter
+@Getter
 public class JdbcProductDao implements ProductDao {
 
     @Autowired
     private ConnectionFactory connectionFactory;
-    @Autowired
-    private DataSource dataSource;
-    PGSimpleDataSource pgSimpleDataSource;
+//    @Autowired
+//    private DataSource dataSource;
+//    PGSimpleDataSource pgSimpleDataSource;
     private final ProductRowMapper productRowMapper = new ProductRowMapper();
 
     private static final String FIND_ALL_SQL = "SELECT id, name, price, creation_date FROM products;";

@@ -1,16 +1,14 @@
 package com.podzirei.onlineshop.web.controllers;
 
 import com.podzirei.onlineshop.security.SecurityService;
-import com.podzirei.onlineshop.web.util.PageGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -22,28 +20,23 @@ public class LoginController {
     private SecurityService securityService;
 
     @GetMapping
-    @ResponseBody
-    protected void loginGet(HttpServletResponse response) throws IOException {
-        PageGenerator pageGenerator = PageGenerator.getInstance();
-        String page = pageGenerator.getPage("login.html");
-        response.getWriter().write(page);
+    public String loginGet(){
+        return "login";
     }
 
     @PostMapping
-    protected void loginPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String login = request.getParameter("login");
-        String password = request.getParameter("password");
+    public String loginPost(@RequestParam(value = "login") String login,
+                               @RequestParam(value = "password") String password,
+                               HttpServletResponse response) throws IOException {
 
         String token = securityService.login(login, password);
 
         if (token != null) {
             response.addCookie(new Cookie("user-token", token));
-            response.sendRedirect("/products");
+            return "redirect:/products";
         } else {
-            PageGenerator pageGenerator = PageGenerator.getInstance();
-            String page = pageGenerator.getPage("login.html");
-            response.getWriter().write(page);
             response.getWriter().write("<h3 style=position:absolute;left:33%;>Please enter correct login and password! </h3>");
+            return "login";
         }
     }
 }

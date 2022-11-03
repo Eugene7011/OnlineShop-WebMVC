@@ -53,4 +53,13 @@
 
     <bean id="applicationContextProvider" class="com.podzirei.onlineshop.config.ApplicationContextProvider"/>
 
+    <bean id="freemarkerConfigurer" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property  name="templateLoaderPath" value="classpath:templates/pages/"/>
+    </bean>
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <property name="cache" value="true"/>
+        <property name="prefix" value=""/>
+        <property name="suffix" value=".html"/>
+    </bean>
+
 </beans>

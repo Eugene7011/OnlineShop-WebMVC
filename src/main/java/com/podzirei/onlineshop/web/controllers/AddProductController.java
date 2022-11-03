@@ -2,17 +2,13 @@ package com.podzirei.onlineshop.web.controllers;
 
 import com.podzirei.onlineshop.entity.Product;
 import com.podzirei.onlineshop.service.ProductService;
-import com.podzirei.onlineshop.web.util.PageGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Map;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping(path = "/products/add")
@@ -21,34 +17,31 @@ public class AddProductController {
     @Autowired
     private ProductService productService;
 
+    public AddProductController() {
+        super();
+    }
+
     @GetMapping
-    public void addProduct(HttpServletResponse response) throws IOException {
-        PageGenerator pageGenerator = PageGenerator.getInstance();
-        String page = pageGenerator.getPage("add_product.html");
-        response.getWriter().write(page);
+    public String addProductPage() {
+        return "add_product";
     }
 
     @PostMapping
-    public void postProduct(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String postProduct(@RequestParam(value = "name") String name,
+                              @RequestParam(value = "price") String price,
+                              Model model) {
         try {
-            Product product = getProductFromRequest(request);
+            Product product = Product.builder()
+                    .name(name)
+                    .price(Double.parseDouble(price))
+                    .build();
             productService.add(product);
-            response.sendRedirect("/products");
+            return "redirect:/products";
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             String errorMessage = "Product has not been added. Check and enter correct data in the fields";
-            PageGenerator pageGenerator = PageGenerator.getInstance();
-
-            Map<String, Object> parameters = Map.of("errorMessage", errorMessage);
-            String page = pageGenerator.getPage("add_product.html", parameters);
-            response.getWriter().write(page);
+            model.addAttribute("errorMessage", errorMessage);
+            return "add_product";
         }
-    }
-
-    private Product getProductFromRequest(HttpServletRequest request) {
-        return Product.builder().
-                name(request.getParameter("name"))
-                .price(Double.parseDouble(request.getParameter("price")))
-                .build();
     }
 }

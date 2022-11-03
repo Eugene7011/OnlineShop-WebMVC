@@ -15,14 +15,14 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping(path = "/products")
+@RequestMapping(path = {"/products"})
 public class ProductController {
 
     @Autowired
     private ProductService productService;
 
     @GetMapping
-    public void getAllProducts (HttpServletResponse response) {
+    public void getAllProducts(HttpServletResponse response) {
 
         Map<String, Object> paramMap = new HashMap<>();
         List<Product> products;
@@ -37,7 +37,7 @@ public class ProductController {
             response.setStatus(HttpServletResponse.SC_OK);
             response.getWriter().write(page);
         } catch (IOException exception) {
-            throw new RuntimeException("Can not get all products from database",exception);
+            throw new RuntimeException("Can not get all products from database", exception);
         }
     }
 }

@@ -26,6 +26,9 @@ public class SecurityFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
+        UserService userService = ApplicationContextProvider.getApplicationContext().getBean(UserService.class);
+        this.setUserService(userService);
+
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
@@ -37,8 +40,6 @@ public class SecurityFilter implements Filter {
             }
         }
         log.info("Check if user is authorized");
-        UserService userService = ApplicationContextProvider.getApplicationContext().getBean(UserService.class);
-        this.setUserService(userService);
         if (userService.isAuth(httpServletRequest.getCookies())) {
             chain.doFilter(request, response);
         } else {

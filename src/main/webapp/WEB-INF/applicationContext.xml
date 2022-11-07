@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="com.podzirei"/>
+
+    <context:property-placeholder location="classpath:pg-application.properties"/>
+
+    <bean id="productDao" class="com.podzirei.onlineshop.dao.jdbc.JdbcProductDao">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="userDao" class="com.podzirei.onlineshop.dao.jdbc.JdbcUserDao">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="productService" class="com.podzirei.onlineshop.service.ProductService">
+        <property name="productDao" ref="productDao"/>
+    </bean>
+
+    <bean id="userService" class="com.podzirei.onlineshop.service.UserService">
+        <property name="userDao" ref="userDao"/>
+    </bean>
+
+    <bean id="securityService" class="com.podzirei.onlineshop.security.SecurityService">
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="dataSource" class="org.postgresql.ds.PGSimpleDataSource">
+        <property name="user" value="${db.user}"/>
+        <property name="password" value="${db.pass}"/>
+        <property name="databaseName" value="${db.name}"/>
+        <property name="portNumbers" value="${db.port}"/>
+    </bean>
+
+</beans>

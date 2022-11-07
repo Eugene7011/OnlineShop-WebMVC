@@ -20,14 +20,14 @@ public class LoginController {
     private SecurityService securityService;
 
     @GetMapping
-    public String loginGet(){
+    public String loginGet() {
         return "login";
     }
 
     @PostMapping
     public String loginPost(@RequestParam(value = "login") String login,
-                               @RequestParam(value = "password") String password,
-                               HttpServletResponse response) throws IOException {
+                            @RequestParam(value = "password") String password,
+                            HttpServletResponse response) throws IOException {
 
         String token = securityService.login(login, password);
 

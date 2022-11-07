@@ -1,9 +1,8 @@
 package com.podzirei.onlineshop.web.security;
 
-import com.podzirei.onlineshop.config.ApplicationContextProvider;
 import com.podzirei.onlineshop.service.UserService;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -16,19 +15,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@Slf4j
-@Setter
+@Component("securityFilter")
 public class SecurityFilter implements Filter {
 
+    @Autowired
     private UserService userService;
 
     private final List<String> allowedPath = List.of("/login");
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
-        UserService userService = ApplicationContextProvider.getApplicationContext().getBean(UserService.class);
-        this.setUserService(userService);
-
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
@@ -39,7 +35,7 @@ public class SecurityFilter implements Filter {
                 return;
             }
         }
-        log.info("Check if user is authorized");
+
         if (userService.isAuth(httpServletRequest.getCookies())) {
             chain.doFilter(request, response);
         } else {
@@ -49,6 +45,7 @@ public class SecurityFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) {
+
     }
 
     @Override

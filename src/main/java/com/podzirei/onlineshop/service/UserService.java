@@ -2,7 +2,6 @@ package com.podzirei.onlineshop.service;
 
 import com.podzirei.onlineshop.dao.UserDao;
 import com.podzirei.onlineshop.entity.User;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +11,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-@Setter
 public class UserService {
     @Autowired
     private UserDao userDao;

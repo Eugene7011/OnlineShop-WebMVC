@@ -21,9 +21,9 @@ public class SearchProductController {
     @GetMapping
     public String search(@RequestParam("searchText") String searchText,
                          Model model) {
-        List<Product> products = productService.search(searchText);
-        model.addAttribute("products", products);
         try {
+            List<Product> products = productService.search(searchText);
+            model.addAttribute("products", products);
             return "allproducts";
         } catch (Exception exception) {
             throw new RuntimeException("Cant find product from database");

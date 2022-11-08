@@ -8,9 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
 @Controller
 @RequestMapping(path = "/products/delete")
 public class DeleteProductController {
@@ -24,14 +21,8 @@ public class DeleteProductController {
     }
 
     @PostMapping
-    public String deleteById(@RequestParam("id") String id,
-                             HttpServletResponse response) throws IOException {
-        try {
-            productService.delete(Integer.parseInt(id));
-            return "redirect:/products";
-        } catch (Exception e) {
-            response.getWriter().write("<h3 style=position:absolute;left:33%;>Invalid id. Can not delete product by entered id! </h3>");
-            return "deleteproduct";
-        }
+    public String deleteById(@RequestParam("id") String id) {
+        productService.delete(Integer.parseInt(id));
+        return "redirect:/products";
     }
 }

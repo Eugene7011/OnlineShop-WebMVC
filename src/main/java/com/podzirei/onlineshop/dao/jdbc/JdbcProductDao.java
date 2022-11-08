@@ -3,9 +3,8 @@ package com.podzirei.onlineshop.dao.jdbc;
 import com.podzirei.onlineshop.dao.ProductDao;
 import com.podzirei.onlineshop.dao.jdbc.mapper.ProductRowMapper;
 import com.podzirei.onlineshop.entity.Product;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -18,8 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Setter
-@Getter
+@Repository
 public class JdbcProductDao implements ProductDao {
 
     @Autowired

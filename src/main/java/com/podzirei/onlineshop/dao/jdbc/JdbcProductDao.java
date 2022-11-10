@@ -3,7 +3,6 @@ package com.podzirei.onlineshop.dao.jdbc;
 import com.podzirei.onlineshop.dao.ProductDao;
 import com.podzirei.onlineshop.dao.jdbc.mapper.ProductRowMapper;
 import com.podzirei.onlineshop.entity.Product;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -16,19 +15,19 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Repository
 public class JdbcProductDao implements ProductDao {
-
-    @Autowired
-    private DataSource dataSource;
-    private final ProductRowMapper productRowMapper = new ProductRowMapper();
-
     private static final String FIND_ALL_SQL = "SELECT id, name, price, creation_date FROM products;";
     private static final String ADD_SQL = "INSERT INTO products (name, price, creation_date) VALUES (?,?,?);";
     private static final String DELETE_SQL = "DELETE FROM products WHERE id=?;";
     private static final String UPDATE_SQL = "UPDATE products SET name=?, price=?, creation_date=? WHERE id=?;";
     private static final String SEARCH_SQL = "SELECT id, name, price, creation_date FROM products WHERE  (name) LIKE ?;";
+    private final DataSource dataSource;
+    private final ProductRowMapper productRowMapper = new ProductRowMapper();
+
+    public JdbcProductDao(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @Override
     public List<Product> findAll() {

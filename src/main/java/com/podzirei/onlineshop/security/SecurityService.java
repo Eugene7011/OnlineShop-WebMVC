@@ -3,16 +3,18 @@ package com.podzirei.onlineshop.security;
 import com.podzirei.onlineshop.entity.User;
 import com.podzirei.onlineshop.service.UserService;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.Cookie;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 @Service
 public class SecurityService {
-    @Autowired
-    private UserService userService;
+    private final List<String> userTokens = new ArrayList<>();
+    private final UserService userService;
 
     public SecurityService(UserService userService) {
         this.userService = userService;
@@ -37,7 +39,7 @@ public class SecurityService {
 
     public String login(String login, String password) {
         if (isValidCredential(login, password)) {
-            return userService.generateCookie().getValue();
+            return generateCookie().getValue();
         }
         return null;
     }
@@ -51,9 +53,23 @@ public class SecurityService {
         return userLogin.getSalt();
     }
 
-    //TODO: check usage if needed
-    public String generateSalt() {
-        return UUID.randomUUID().toString();
+    public Cookie generateCookie() {
+        String userToken = UUID.randomUUID().toString();
+        userTokens.add(userToken);
+        return new Cookie("user-token", userToken);
+    }
+
+    public boolean isAuth(Cookie[] cookies) {
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("user-token")) {
+                    if (userTokens.contains(cookie.getValue())) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }
 

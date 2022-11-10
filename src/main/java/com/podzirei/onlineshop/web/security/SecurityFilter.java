@@ -1,7 +1,6 @@
 package com.podzirei.onlineshop.web.security;
 
-import com.podzirei.onlineshop.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.podzirei.onlineshop.security.SecurityService;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.Filter;
@@ -17,11 +16,12 @@ import java.util.List;
 
 @Component("securityFilter")
 public class SecurityFilter implements Filter {
-
-    @Autowired
-    private UserService userService;
-
+    private final SecurityService securityService;
     private final List<String> allowedPath = List.of("/login");
+
+    public SecurityFilter(SecurityService securityService) {
+        this.securityService = securityService;
+    }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
@@ -36,7 +36,7 @@ public class SecurityFilter implements Filter {
             }
         }
 
-        if (userService.isAuth(httpServletRequest.getCookies())) {
+        if (securityService.isAuth(httpServletRequest.getCookies())) {
             chain.doFilter(request, response);
         } else {
             httpServletResponse.sendRedirect("/login");

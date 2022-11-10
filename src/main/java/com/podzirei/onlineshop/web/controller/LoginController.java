@@ -1,4 +1,4 @@
-package com.podzirei.onlineshop.web.controllers;
+package com.podzirei.onlineshop.web.controller;
 
 import com.podzirei.onlineshop.security.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;

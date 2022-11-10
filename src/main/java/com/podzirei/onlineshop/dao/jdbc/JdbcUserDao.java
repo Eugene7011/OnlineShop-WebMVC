@@ -3,7 +3,6 @@ package com.podzirei.onlineshop.dao.jdbc;
 import com.podzirei.onlineshop.dao.UserDao;
 import com.podzirei.onlineshop.dao.jdbc.mapper.UserRowMapper;
 import com.podzirei.onlineshop.entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -14,10 +13,13 @@ import java.sql.SQLException;
 
 @Repository
 public class JdbcUserDao implements UserDao {
-    @Autowired
-    private DataSource dataSource;
-    private final UserRowMapper userRowMapper = new UserRowMapper();
     private static final String FIND_USER_SQL = "SELECT id, login, password, salt FROM users WHERE login=?";
+    private final DataSource dataSource;
+    private final UserRowMapper userRowMapper = new UserRowMapper();
+
+    public JdbcUserDao(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @Override
     public User findUser(String login) {

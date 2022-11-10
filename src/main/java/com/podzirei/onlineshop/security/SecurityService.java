@@ -3,16 +3,20 @@ package com.podzirei.onlineshop.security;
 import com.podzirei.onlineshop.entity.User;
 import com.podzirei.onlineshop.service.UserService;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service
 public class SecurityService {
-    @Autowired
-    private UserService userService;
+    private final CopyOnWriteArrayList<Cookie> cookies = new CopyOnWriteArrayList<>();
+    private final UserService userService;
 
     public SecurityService(UserService userService) {
         this.userService = userService;
@@ -35,9 +39,9 @@ public class SecurityService {
         return false;
     }
 
-    public String login(String login, String password) {
+    public Cookie login(String login, String password) {
         if (isValidCredential(login, password)) {
-            return userService.generateCookie().getValue();
+            return generateCookie();
         }
         return null;
     }
@@ -51,9 +55,35 @@ public class SecurityService {
         return userLogin.getSalt();
     }
 
-    //TODO: check usage if needed
-    public String generateSalt() {
-        return UUID.randomUUID().toString();
+    public Cookie generateCookie() {
+        String cookieId = UUID.randomUUID().toString();
+        Cookie cookie = new Cookie("cookieId", cookieId);
+        cookie.setMaxAge(60 * 60);
+        cookie.setDomain("localhost");
+        cookie.setPath(":8080/products");
+        cookies.add(cookie);
+
+        return cookie;
+    }
+
+    public boolean isAuth(HttpServletRequest request) {
+        if (request.getCookies() == null) {
+            return false;
+        }
+
+        return validateCookies(request);
+    }
+
+    private Boolean validateCookies(HttpServletRequest request) {
+        boolean result = false;
+        Optional<String> cookieFromDB = Arrays.stream(request.getCookies())
+                .filter(cookie -> ("cookieId").equals(cookie.getName()))
+                .map(Cookie::getValue)
+                .findAny();
+        if (cookieFromDB.isPresent()) {
+            result = true;
+        }
+        return result;
     }
 }
 

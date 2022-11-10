@@ -1,6 +1,5 @@
 package com.podzirei.onlineshop.security;
 
-import com.podzirei.onlineshop.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ContextConfiguration(locations = "classpath:WEB-INF/test-context.xml")
 public class SecurityServiceTest {
 
-    @Autowired
-    private UserService userService;
     @Autowired
     private SecurityService securityService;
 
@@ -58,21 +55,18 @@ public class SecurityServiceTest {
     @Test
     @DisplayName("test Login when User And Password are Not correct")
     public void testLogin_whenUserAndPassword_areNotCorrect() {
-        String expectedToken = "0";
-        String actualToken = securityService.login("user", "NotExistingPassword");
-
-        assertNull(actualToken);
-        assertNotEquals(expectedToken, actualToken);
+        Cookie cookie = securityService.login("user", "NotExistingPassword");
+        assertNull(cookie);
     }
 
     @Test
     @DisplayName("test Login when User And Password are correct")
     public void testLogin_whenUserAndPassword_areCorrect() {
-        String expectedToken = "0";
-        String actualToken = securityService.login("user", "pass");
+        String expectedValue = "0";
+        Cookie cookie = securityService.login("user", "pass");
 
-        assertNotNull(actualToken);
-        assertNotEquals(expectedToken, actualToken);
+        assertNotNull(cookie.getValue());
+        assertNotEquals(expectedValue, cookie.getValue());
     }
 
     @Test
@@ -85,30 +79,5 @@ public class SecurityServiceTest {
     @DisplayName("test Check Password when Password Is Not Valid")
     public void testCheckPassword_whenPasswordIsNotValid() {
         assertFalse(securityService.isValidCredential("user", "1234"));
-    }
-
-    @Test
-    @DisplayName("test Is Auth False when Cookies Is Null")
-    public void testIsAuthFalse_whenCookiesIsNull() {
-        Cookie[] cookies = null;
-        assertFalse(userService.isAuth(cookies));
-    }
-
-    @Test
-    @DisplayName("test IsAuth False When User Not Logged In")
-    void testIsAuthFalseWhenUserNotLoggedIn() {
-        Cookie[] cookies = new Cookie[0];
-
-        assertFalse(userService.isAuth(cookies));
-    }
-
-    @Test
-    @DisplayName("test Generate Random Salt")
-    public void testGenerateRandomSalt() {
-        String actualSalt = securityService.generateSalt();
-        String expectedSalt = securityService.generateSalt();
-
-        assertNotNull(actualSalt);
-        assertNotEquals(expectedSalt, actualSalt);
     }
 }

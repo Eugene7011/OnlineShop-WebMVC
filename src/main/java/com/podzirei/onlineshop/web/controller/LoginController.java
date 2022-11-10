@@ -1,4 +1,4 @@
-package com.podzirei.onlineshop.web.controllers;
+package com.podzirei.onlineshop.web.controller;
 
 import com.podzirei.onlineshop.security.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +29,10 @@ public class LoginController {
                             @RequestParam(value = "password") String password,
                             HttpServletResponse response) throws IOException {
 
-        String token = securityService.login(login, password);
+        Cookie cookie = securityService.login(login, password);
 
-        if (token != null) {
-            response.addCookie(new Cookie("user-token", token));
+        if (cookie != null) {
+            response.addCookie(cookie);
             return "redirect:/products";
         } else {
             response.getWriter().write("<h3 style=position:absolute;left:33%;>Please enter correct login and password! </h3>");

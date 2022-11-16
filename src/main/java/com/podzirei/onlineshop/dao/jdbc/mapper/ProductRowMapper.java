@@ -21,6 +21,18 @@ public class ProductRowMapper {
                 .creationDate(creationDateTimesTemp.toLocalDateTime())
                 .build();
     }
+
+    public Product mapRowFromCart(ResultSet resultSet) throws SQLException {
+        int id = resultSet.getInt("id");
+        String name = resultSet.getString("name");
+        double price = resultSet.getDouble("price");
+
+        return Product.builder().
+                id(id)
+                .name(name)
+                .price(price)
+                .build();
+    }
 }
 
 

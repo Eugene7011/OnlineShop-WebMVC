@@ -34,4 +34,16 @@ public class ProductService {
     public List<Product> search(String searchText) {
         return productDao.search(searchText);
     }
+
+    public void addToCart(int id) {
+        productDao.addToCart(id);
+    }
+
+    public List<Product> showCart() {
+        return productDao.showCart();
+    }
+
+    public void deleteFromCart(int id) {
+        productDao.deleteFromCart(id);
+    }
 }

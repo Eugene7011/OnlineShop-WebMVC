@@ -8,6 +8,6 @@ import org.springframework.context.annotation.FilterType;
 @ComponentScan(basePackages = {"com.podzirei.onlineshop"},
         excludeFilters = {@ComponentScan.Filter(
                 type = FilterType.REGEX,
-                pattern = "com.podzirei.onlineshop.web")})
+                pattern = "com\\.podzirei\\.onlineshop\\.web\\.*")})
 public class RootConfig {
 }

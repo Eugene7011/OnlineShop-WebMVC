@@ -84,18 +84,34 @@ public class ProductController {
         return "redirect:/products";
     }
 
-    @PostMapping(path = "/cart")
-    public String cartPost(@RequestParam(value = "id") String id,
-                           @RequestParam(value = "name") String name,
-                           @RequestParam(value = "price") String price,
-                           @RequestParam(value = "creation_date") String creationDate) {
-
-        LocalDateTime date = LocalDateTime.parse(creationDate);
-        Product product = new Product(Integer.parseInt(id), name,
-                Double.parseDouble(price), date);
-        productService.update(product);
-
-        return "redirect:/products";
+    @PostMapping(path = "/cart/add")
+    public String addToCart(@RequestParam("id") String id) {
+        productService.addToCart(Integer.parseInt(id));
+        return "redirect:/products/cart";
     }
 
+    @GetMapping(path = "/cart/add")
+    public String addToCart() {
+        return "addtocart";
+    }
+
+    @GetMapping(path = "/cart")
+    public String getCart(Model model) {
+        List<Product> products;
+        products = productService.showCart();
+        model.addAttribute("products", products);
+
+        return "cart";
+    }
+
+    @PostMapping(path = "/cart/delete")
+    public String deleteFromCart(@RequestParam("id") String id) {
+        productService.deleteFromCart(Integer.parseInt(id));
+        return "redirect:/products/cart";
+    }
+
+    @GetMapping(path = "/cart/delete")
+    public String deleteFromCart() {
+        return "deletefromcart";
+    }
 }

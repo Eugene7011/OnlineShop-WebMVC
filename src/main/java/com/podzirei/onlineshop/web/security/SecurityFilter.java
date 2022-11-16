@@ -58,13 +58,14 @@ public class SecurityFilter implements Filter {
 
     private List<UUID> retrieveTokens(HttpServletRequest httpServletRequest) {
 
-        return Arrays.stream(httpServletRequest.getCookies())
+        List<UUID> tokens = Arrays.stream(httpServletRequest.getCookies())
                 .filter(cookie -> ("cookieId").equals(cookie.getName()))
                 .map(Cookie::getValue)
                 .toList()
                 .stream()
                 .map(UUID::fromString)
                 .collect(Collectors.toList());
+        return tokens;
     }
 }
 

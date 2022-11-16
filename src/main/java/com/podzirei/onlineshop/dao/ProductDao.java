@@ -14,4 +14,10 @@ public interface ProductDao {
     void update(Product product);
 
     List<Product> search(String searchText);
+
+    void addToCart(int id);
+
+    List<Product> showCart();
+
+    void deleteFromCart(int id);
 }

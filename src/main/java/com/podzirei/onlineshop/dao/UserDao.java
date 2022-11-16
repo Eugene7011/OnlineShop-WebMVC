@@ -2,6 +2,8 @@ package com.podzirei.onlineshop.dao;
 
 import com.podzirei.onlineshop.entity.User;
 
+import java.util.Optional;
+
 public interface UserDao {
-    User findUser(String login);
+    Optional<User> findUser(String login);
 }

@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 @Repository
 public class JdbcUserDao implements UserDao {
@@ -22,19 +23,19 @@ public class JdbcUserDao implements UserDao {
     }
 
     @Override
-    public User findUser(String login) {
+    public Optional<User> findUser(String login) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_USER_SQL)) {
-
             preparedStatement.setString(1, login);
+
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    return userRowMapper.mapRow(resultSet);
+                    return Optional.ofNullable(userRowMapper.mapRow(resultSet));
                 }
             }
-            return null;
+            return Optional.empty();
         } catch (SQLException e) {
-            throw new RuntimeException("Can not search user with : " + login, e);
+            throw new RuntimeException("Can not search user with login: " + login, e);
         }
     }
 }

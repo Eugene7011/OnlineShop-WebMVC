@@ -2,7 +2,7 @@ package com.podzirei.onlineshop.web.controller;
 
 import com.podzirei.onlineshop.entity.Product;
 import com.podzirei.onlineshop.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,10 +15,10 @@ import java.util.List;
 
 @Controller
 @RequestMapping(path = "/products")
+@RequiredArgsConstructor
 public class ProductController {
 
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
 
     @GetMapping
     public String getAllProducts(Model model) {
@@ -75,6 +75,20 @@ public class ProductController {
                              @RequestParam(value = "name") String name,
                              @RequestParam(value = "price") String price,
                              @RequestParam(value = "creation_date") String creationDate) {
+
+        LocalDateTime date = LocalDateTime.parse(creationDate);
+        Product product = new Product(Integer.parseInt(id), name,
+                Double.parseDouble(price), date);
+        productService.update(product);
+
+        return "redirect:/products";
+    }
+
+    @PostMapping(path = "/cart")
+    public String cartPost(@RequestParam(value = "id") String id,
+                           @RequestParam(value = "name") String name,
+                           @RequestParam(value = "price") String price,
+                           @RequestParam(value = "creation_date") String creationDate) {
 
         LocalDateTime date = LocalDateTime.parse(creationDate);
         Product product = new Product(Integer.parseInt(id), name,

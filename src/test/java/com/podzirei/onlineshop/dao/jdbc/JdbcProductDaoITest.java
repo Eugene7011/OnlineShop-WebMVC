@@ -1,11 +1,16 @@
 package com.podzirei.onlineshop.dao.jdbc;
 
+import com.podzirei.onlineshop.config.DataSourceConfig;
+import com.podzirei.onlineshop.config.RootConfig;
 import com.podzirei.onlineshop.entity.Product;
+import com.podzirei.onlineshop.web.config.WebConfig;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,8 +19,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@SpringJUnitWebConfig
-@ContextConfiguration(locations = "classpath:WEB-INF/test-context.xml")
+@WebAppConfiguration
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {RootConfig.class, WebConfig.class, DataSourceConfig.class})
 public class JdbcProductDaoITest {
 
     @Autowired
@@ -30,13 +36,6 @@ public class JdbcProductDaoITest {
             assertNotNull(product.getName());
             assertNotNull(product.getCreationDate());
         }
-    }
-
-    @Test
-    @DisplayName("when FindAll then Return  Is Not Null")
-    void whenFindAll_thenSize_isNotNull() {
-        List<Product> products = jdbcProductDao.findAll();
-        assertNotNull(products.size());
     }
 
     @Test

@@ -1,12 +1,17 @@
 package com.podzirei.onlineshop.security;
 
+import com.podzirei.onlineshop.config.DataSourceConfig;
+import com.podzirei.onlineshop.config.RootConfig;
+import com.podzirei.onlineshop.web.config.WebConfig;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.web.WebAppConfiguration;
 
-import javax.servlet.http.Cookie;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -15,8 +20,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringJUnitWebConfig
-@ContextConfiguration(locations = "classpath:WEB-INF/test-context.xml")
+@WebAppConfiguration
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {RootConfig.class, WebConfig.class, DataSourceConfig.class})
 public class SecurityServiceTest {
 
     @Autowired
@@ -55,18 +61,18 @@ public class SecurityServiceTest {
     @Test
     @DisplayName("test Login when User And Password are Not correct")
     public void testLogin_whenUserAndPassword_areNotCorrect() {
-        Cookie cookie = securityService.login("user", "NotExistingPassword");
-        assertNull(cookie);
+        UUID token = securityService.login("user", "NotExistingPassword");
+        assertNull(token);
     }
 
     @Test
     @DisplayName("test Login when User And Password are correct")
     public void testLogin_whenUserAndPassword_areCorrect() {
         String expectedValue = "0";
-        Cookie cookie = securityService.login("user", "pass");
+        UUID token = securityService.login("user", "pass");
 
-        assertNotNull(cookie.getValue());
-        assertNotEquals(expectedValue, cookie.getValue());
+        assertNotNull(token);
+        assertNotEquals(expectedValue, token.toString());
     }
 
     @Test

@@ -1,19 +1,27 @@
 package com.podzirei.onlineshop.dao.jdbc;
 
+import com.podzirei.onlineshop.config.DataSourceConfig;
+import com.podzirei.onlineshop.config.RootConfig;
 import com.podzirei.onlineshop.entity.User;
+import com.podzirei.onlineshop.web.config.WebConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.web.WebAppConfiguration;
+
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-@SpringJUnitWebConfig
-@ContextConfiguration(locations = "classpath:WEB-INF/test-context.xml")
+@WebAppConfiguration
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {RootConfig.class, WebConfig.class, DataSourceConfig.class})
 public class JdbcUserDaoITest {
 
     @Autowired
@@ -22,7 +30,8 @@ public class JdbcUserDaoITest {
     @Test
     @DisplayName("find User when User Exist then Data Return")
     public void findUser_whenUserExist_thenDataReturn() {
-        User user = jdbcUserDao.findUser("user");
+        User user = jdbcUserDao.findUser("user")
+                .orElseThrow(() -> new NoSuchElementException("User not found"));
 
         int actualId = user.getId();
         int expectedId = 1;
@@ -41,7 +50,8 @@ public class JdbcUserDaoITest {
     @Test
     @DisplayName("find User when User Exist then Return Not Null Data")
     public void findUser_whenUserExist_thenReturnNotNullData() {
-        User user = jdbcUserDao.findUser("user");
+        User user = jdbcUserDao.findUser("user")
+                .orElseThrow(() -> new NoSuchElementException("User not found"));
 
         assertNotNull(user);
         assertNotNull(user.getSalt());
@@ -52,8 +62,9 @@ public class JdbcUserDaoITest {
     @Test
     @DisplayName("find User when User Is Not Exist then throw NullPointerException ")
     public void findUser_whenUserIsNotExist_thenNullPointerExceptionThrow() {
-        Assertions.assertThrows(NullPointerException.class, () -> {
-            User user = jdbcUserDao.findUser("Not_Existing_User");
+        Assertions.assertThrows(NoSuchElementException.class, () -> {
+            User user = jdbcUserDao.findUser("Not_Existing_User")
+                    .orElseThrow(() -> new NoSuchElementException("User not found"));
             assertNull(user.getSalt());
             assertNull(user.getPassword());
             assertNull(user.getLogin());

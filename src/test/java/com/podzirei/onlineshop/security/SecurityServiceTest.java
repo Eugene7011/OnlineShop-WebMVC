@@ -3,6 +3,7 @@ package com.podzirei.onlineshop.security;
 import com.podzirei.onlineshop.dao.jdbc.config.DataSourceConfig;
 import com.podzirei.onlineshop.web.config.RootConfig;
 import com.podzirei.onlineshop.web.config.WebConfig;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,12 +12,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @WebAppConfiguration
 @ExtendWith(SpringExtension.class)
@@ -60,8 +61,9 @@ public class SecurityServiceTest {
     @DisplayName("test Login when User And Password are Not correct")
     public void testLogin_whenUserAndPassword_areNotCorrect() {
         SecurityService.Credentials credentials = new SecurityService.Credentials("user1", "NotExistingPassword");
-        Optional<Session> login = securityService.login(credentials);
-        assertTrue(login.isEmpty());
+        Assertions.assertThrows(NoSuchElementException.class, () -> {
+            securityService.login(credentials);
+        });
     }
 
     @Test

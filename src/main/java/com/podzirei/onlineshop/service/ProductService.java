@@ -13,22 +13,22 @@ import java.util.List;
 public class ProductService {
     private final ProductDao productDao;
 
-    public void add(Product product) {
+    public int add(Product product) {
         LocalDateTime now = LocalDateTime.now();
         product.setCreationDate(now);
-        productDao.add(product);
+        return productDao.add(product);
     }
 
-    public void delete(int id) {
-        productDao.delete(id);
+    public int delete(int id) {
+        return productDao.delete(id);
     }
 
     public List<Product> findAll() {
         return productDao.findAll();
     }
 
-    public void update(String name, Double price, int id) {
-        productDao.update(name, price, id);
+    public int update(String name, Double price, int id) {
+        return productDao.update(name, price, id);
     }
 
     public Product findById(int id) {

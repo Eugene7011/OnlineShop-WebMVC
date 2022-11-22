@@ -1,18 +1,11 @@
 package com.podzirei.onlineshop.dao.jdbc;
 
 import com.podzirei.onlineshop.dao.ProductDao;
+import com.podzirei.onlineshop.dao.jdbc.jdbcTemplate.JdbcTemplate;
 import com.podzirei.onlineshop.dao.jdbc.mapper.ProductRowMapper;
 import com.podzirei.onlineshop.entity.Product;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -21,109 +14,47 @@ public class JdbcProductDao implements ProductDao {
     private static final String ADD_SQL = "INSERT INTO products (name, price, creation_date) VALUES (?,?,?);";
     private static final String DELETE_SQL = "DELETE FROM products WHERE id=?;";
     private static final String UPDATE_SQL = "UPDATE products SET name=?, price=? WHERE id=?;";
-    private static final String SEARCH_SQL = "SELECT id, name, price, creation_date FROM products WHERE  (name) LIKE ?;";
+    private static final String SEARCH_SQL = "SELECT id, name, price, creation_date FROM products WHERE  name=?;";
     private static final String FIND_BY_ID_SQL = "SELECT id, name, price, creation_date FROM products WHERE id=?;";
 
     private final static ProductRowMapper productRowMapper = new ProductRowMapper();
-    private final DataSource dataSource;
+    private final JdbcTemplate jdbcTemplate;
 
-    public JdbcProductDao(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public JdbcProductDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public List<Product> findAll() {
-        try (Connection connection = dataSource.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(FIND_ALL_SQL)) {
-            List<Product> products = new ArrayList<>();
-            while (resultSet.next()) {
-                Product product = productRowMapper.mapRow(resultSet);
-                products.add(product);
-            }
-            return products;
-        } catch (SQLException exception) {
-            throw new RuntimeException("Unable to get products from database", exception);
-        }
+        return jdbcTemplate.query(FIND_ALL_SQL, productRowMapper);
     }
 
     @Override
-    public void add(Product product) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(ADD_SQL)) {
-
-            preparedStatement.setString(1, product.getName());
-            preparedStatement.setDouble(2, product.getPrice());
-            preparedStatement.setTimestamp(3, Timestamp.valueOf(product.getCreationDate()));
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException exception) {
-            throw new RuntimeException("Can not add product to database", exception);
-        }
+    public int add(Product product) {
+        Object[] args = {product.getName(), product.getPrice(), product.getCreationDate()};
+        return jdbcTemplate.executeUpdate(ADD_SQL, args);
     }
 
     @Override
-    public void delete(int id) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_SQL)) {
-
-            preparedStatement.setInt(1, Integer.parseInt(String.valueOf(id)));
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("Can not delete product from database", e);
-        }
+    public int delete(int id) {
+        Object[] args = {id};
+        return jdbcTemplate.executeUpdate(DELETE_SQL, args);
     }
 
     @Override
-    public void update(String name, Double price, int id) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_SQL)) {
-
-            preparedStatement.setString(1, name);
-            preparedStatement.setDouble(2, price);
-            preparedStatement.setLong(3, id);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("Can not edit product from database", e);
-        }
+    public int update(String name, Double price, int id) {
+        Object[] args = {name, price, id};
+        return jdbcTemplate.executeUpdate(UPDATE_SQL, args);
     }
 
     @Override
     public List<Product> search(String searchText) {
-        String searchWord = "%" + searchText + "%";
-        List<Product> products = new ArrayList<>();
-
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SEARCH_SQL)) {
-
-            preparedStatement.setString(1, searchWord);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-
-                while (resultSet.next()) {
-                    Product product = productRowMapper.mapRow(resultSet);
-                    products.add(product);
-                }
-            }
-            return products;
-        } catch (SQLException e) {
-            throw new RuntimeException("Can not search product with text: " + searchText, e);
-        }
+        Object[] args = {searchText};
+        return jdbcTemplate.query(SEARCH_SQL, productRowMapper, args);
     }
 
     public Product findById(int id) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID_SQL)) {
-
-            preparedStatement.setInt(1, Integer.parseInt(String.valueOf(id)));
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            Product product = new Product();
-            while (resultSet.next()) {
-                product = productRowMapper.mapRowFromCart(resultSet);
-            }
-            return product;
-        } catch (SQLException exception) {
-            throw new RuntimeException("Unable to get product from database", exception);
-        }
+        Object[] args = {id};
+        return jdbcTemplate.queryObject(FIND_BY_ID_SQL, productRowMapper, args);
     }
 }

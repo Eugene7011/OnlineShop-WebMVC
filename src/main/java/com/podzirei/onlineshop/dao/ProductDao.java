@@ -7,11 +7,11 @@ import java.util.List;
 public interface ProductDao {
     List<Product> findAll();
 
-    void add(Product product);
+    int add(Product product);
 
-    void delete(int id);
+    int delete(int id);
 
-    void update(String name, Double price, int id);
+    int update(String name, Double price, int id);
 
     List<Product> search(String searchText);
 

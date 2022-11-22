@@ -30,8 +30,7 @@ public class JdbcUserDaoITest {
     @Test
     @DisplayName("find User when User Exist then Data Return")
     public void findUser_whenUserExist_thenDataReturn() {
-        User user = jdbcUserDao.findUser("user")
-                .orElseThrow(() -> new NoSuchElementException("User not found"));
+        User user = jdbcUserDao.findUser("user");
 
         int actualId = user.getId();
         int expectedId = 1;
@@ -50,8 +49,7 @@ public class JdbcUserDaoITest {
     @Test
     @DisplayName("find User when User Exist then Return Not Null Data")
     public void findUser_whenUserExist_thenReturnNotNullData() {
-        User user = jdbcUserDao.findUser("user")
-                .orElseThrow(() -> new NoSuchElementException("User not found"));
+        User user = jdbcUserDao.findUser("user");
 
         assertNotNull(user);
         assertNotNull(user.getSalt());
@@ -63,8 +61,7 @@ public class JdbcUserDaoITest {
     @DisplayName("find User when User Is Not Exist then throw NullPointerException ")
     public void findUser_whenUserIsNotExist_thenNullPointerExceptionThrow() {
         Assertions.assertThrows(NoSuchElementException.class, () -> {
-            User user = jdbcUserDao.findUser("Not_Existing_User")
-                    .orElseThrow(() -> new NoSuchElementException("User not found"));
+            User user = jdbcUserDao.findUser("Not_Existing_User");
             assertNull(user.getSalt());
             assertNull(user.getPassword());
             assertNull(user.getLogin());

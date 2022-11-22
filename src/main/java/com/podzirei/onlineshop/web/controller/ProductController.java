@@ -19,7 +19,6 @@ import java.util.Optional;
 @Controller
 @RequestMapping(path = "/products")
 @RequiredArgsConstructor
-//@SessionAttributes("session")
 public class ProductController {
 
     private final ProductService productService;

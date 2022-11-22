@@ -1,11 +1,12 @@
 package com.podzirei.onlineshop.dao.jdbc.mapper;
 
+import com.podzirei.onlineshop.dao.jdbc.jdbcTemplate.RowMapper;
 import com.podzirei.onlineshop.entity.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserRowMapper {
+public class UserRowMapper implements RowMapper<User> {
     public User mapRow(ResultSet resultSet) {
         try {
             int id = resultSet.getInt("id");
@@ -19,7 +20,7 @@ public class UserRowMapper {
                     .salt(salt)
                     .build();
         } catch (SQLException e){
-            throw new RuntimeException("Can't extract user's from database");
+            throw new RuntimeException("Can't extract user from database");
         }
     }
 }

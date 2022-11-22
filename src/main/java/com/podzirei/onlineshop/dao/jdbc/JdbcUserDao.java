@@ -1,42 +1,25 @@
 package com.podzirei.onlineshop.dao.jdbc;
 
 import com.podzirei.onlineshop.dao.UserDao;
+import com.podzirei.onlineshop.dao.jdbc.jdbcTemplate.JdbcTemplate;
 import com.podzirei.onlineshop.dao.jdbc.mapper.UserRowMapper;
 import com.podzirei.onlineshop.entity.User;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Optional;
-
 @Repository
 public class JdbcUserDao implements UserDao {
     private static final String FIND_USER_SQL = "SELECT id, login, password, salt FROM users WHERE login=?";
-    private final DataSource dataSource;
-    private final UserRowMapper userRowMapper = new UserRowMapper();
+    private static final UserRowMapper userRowMapper = new UserRowMapper();
+    private final JdbcTemplate jdbcTemplate;
 
-    public JdbcUserDao(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public JdbcUserDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
-    public Optional<User> findUser(String login) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(FIND_USER_SQL)) {
-            preparedStatement.setString(1, login);
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    return Optional.ofNullable(userRowMapper.mapRow(resultSet));
-                }
-            }
-            return Optional.empty();
-        } catch (SQLException e) {
-            throw new RuntimeException("Can not search user with login: " + login, e);
-        }
+    public User findUser(String login) {
+        Object[] args = {login};
+        return jdbcTemplate.queryObject(FIND_USER_SQL, userRowMapper, args);
     }
 }
 

@@ -41,25 +41,24 @@ public class SecurityService {
         return hash(passwordWithSalt);
     }
 
-    public Optional<User> getUser(Credentials credentials) {
-        Optional<User> userOptional = userService.findUser(credentials.getLogin());
-        if(userOptional.isPresent()) {
-            User user = userOptional.get();
+    public User getUser(Credentials credentials) {
+        User user = userService.findUser(credentials.getLogin());
+        if(user != null) {
             String encryptedPassword = encryptPasswordWithSalt(credentials);
             String passwordRelatedToUser = user.getPassword();
             if (Objects.equals(encryptedPassword, passwordRelatedToUser)) {
-                return Optional.of(user);
+                return user;
             }
         }
-        return Optional.empty();
+        return user;
     }
 
     public Optional<Session> login(Credentials credentials) {
-        Optional<User> optionalUser = getUser(credentials);
-        if(optionalUser.isPresent()) {
+        User user = getUser(credentials);
+        if(user != null) {
             Session session = new Session();
             session.setToken(generateToken());
-            session.setUser(optionalUser.get());
+            session.setUser(user);
             sessions.add(session);
 
             return Optional.of(session);
@@ -76,9 +75,11 @@ public class SecurityService {
     }
 
     public String getSalt(String login) {
-        Optional<User> userOptional = userService.findUser(login);
-        return userOptional.map(User::getSalt)
-                .orElseThrow();
+        User user = userService.findUser(login);
+        if (user == null){
+            throw new IllegalArgumentException("User is not found by login: " + login);
+        }
+        return user.getSalt();
     }
 
     public Optional<Session> getSession(List<UUID> tokens) {

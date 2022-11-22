@@ -1,8 +1,8 @@
 package com.podzirei.onlineshop.dao.jdbc;
 
-import com.podzirei.onlineshop.config.DataSourceConfig;
-import com.podzirei.onlineshop.config.RootConfig;
+import com.podzirei.onlineshop.dao.jdbc.config.DataSourceConfig;
 import com.podzirei.onlineshop.entity.Product;
+import com.podzirei.onlineshop.web.config.RootConfig;
 import com.podzirei.onlineshop.web.config.WebConfig;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -71,6 +71,7 @@ public class JdbcProductDaoITest {
     @DisplayName("when Update then Size Of List does Not Change")
     void whenUpdate_thenSizeOfList_doesNotChange() {
         Product newProduct = Product.builder().
+                id(1).
                 name("snowboard").
                 price(3000.00).
                 creationDate(LocalDateTime.now())
@@ -78,7 +79,7 @@ public class JdbcProductDaoITest {
         jdbcProductDao.add(newProduct);
 
         int sizeBeforeUpdate = jdbcProductDao.findAll().size();
-        jdbcProductDao.update(newProduct);
+        jdbcProductDao.update("snowboard", 1000.00, 1);
         int sizeAfterUpdate = jdbcProductDao.findAll().size();
 
         assertEquals(sizeBeforeUpdate, sizeAfterUpdate);

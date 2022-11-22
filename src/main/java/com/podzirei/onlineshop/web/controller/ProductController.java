@@ -1,6 +1,8 @@
 package com.podzirei.onlineshop.web.controller;
 
 import com.podzirei.onlineshop.entity.Product;
+import com.podzirei.onlineshop.service.CartService;
+import com.podzirei.onlineshop.service.CurrentUser;
 import com.podzirei.onlineshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -10,22 +12,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping(path = "/products")
 @RequiredArgsConstructor
+//@SessionAttributes("session")
 public class ProductController {
 
     private final ProductService productService;
+    private final CartService cartService;
 
     @GetMapping
     public String getAllProducts(Model model) {
-        List<Product> products;
-        products = productService.findAll();
+        List<Product> products = productService.findAll();
         model.addAttribute("products", products);
-
         return "allproducts";
     }
 
@@ -51,8 +54,8 @@ public class ProductController {
     }
 
     @PostMapping(path = "/delete")
-    public String deleteById(@RequestParam("id") String id) {
-        productService.delete(Integer.parseInt(id));
+    public String deleteById(@RequestParam("id") int id) {
+        productService.delete(id);
         return "redirect:/products";
     }
 
@@ -71,23 +74,12 @@ public class ProductController {
     }
 
     @PostMapping(path = "/update")
-    public String updatePost(@RequestParam(value = "id") String id,
+    public String updatePost(@RequestParam(value = "id") int id,
                              @RequestParam(value = "name") String name,
-                             @RequestParam(value = "price") String price,
-                             @RequestParam(value = "creation_date") String creationDate) {
+                             @RequestParam(value = "price") double price) {
 
-        LocalDateTime date = LocalDateTime.parse(creationDate);
-        Product product = new Product(Integer.parseInt(id), name,
-                Double.parseDouble(price), date);
-        productService.update(product);
-
+        productService.update(name, price, id);
         return "redirect:/products";
-    }
-
-    @PostMapping(path = "/cart/add")
-    public String addToCart(@RequestParam("id") String id) {
-        productService.addToCart(Integer.parseInt(id));
-        return "redirect:/products/cart";
     }
 
     @GetMapping(path = "/cart/add")
@@ -95,23 +87,34 @@ public class ProductController {
         return "addtocart";
     }
 
-    @GetMapping(path = "/cart")
-    public String getCart(Model model) {
-        List<Product> products;
-        products = productService.showCart();
-        model.addAttribute("products", products);
-
-        return "cart";
+    @PostMapping(path = "/cart/add")
+    public String addToCart(@RequestParam("id") int id) {
+        cartService.addToCart(CurrentUser.getCurrentUser(), id);
+        return "redirect:/products/cart";
     }
 
-    @PostMapping(path = "/cart/delete")
-    public String deleteFromCart(@RequestParam("id") String id) {
-        productService.deleteFromCart(Integer.parseInt(id));
-        return "redirect:/products/cart";
+    @GetMapping(path = "/cart")
+    public String getCart(Model model) {
+        Optional<List<Product>> cartOptional = cartService.getCart(CurrentUser.getCurrentUser());
+
+        if (cartOptional.isEmpty()) {
+            List<Product> emptyCart = new ArrayList<>(1);
+            model.addAttribute("cart", emptyCart);
+            return "cart";
+        }
+        List<Product> cart = cartOptional.get();
+        model.addAttribute("cart", cart);
+        return "cart";
     }
 
     @GetMapping(path = "/cart/delete")
     public String deleteFromCart() {
         return "deletefromcart";
+    }
+
+    @PostMapping(path = "/cart/delete")
+    public String deleteFromCart(@RequestParam("id") int id) {
+        cartService.deleteFromCart(CurrentUser.getCurrentUser(), id);
+        return "redirect:/products/cart";
     }
 }

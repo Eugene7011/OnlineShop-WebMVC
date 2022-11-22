@@ -1,7 +1,7 @@
 package com.podzirei.onlineshop.security;
 
-import com.podzirei.onlineshop.config.DataSourceConfig;
-import com.podzirei.onlineshop.config.RootConfig;
+import com.podzirei.onlineshop.dao.jdbc.config.DataSourceConfig;
+import com.podzirei.onlineshop.web.config.RootConfig;
 import com.podzirei.onlineshop.web.config.WebConfig;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,13 +11,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import java.util.UUID;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @WebAppConfiguration
@@ -31,8 +29,8 @@ public class SecurityServiceTest {
     @Test
     @DisplayName("test Encrypt Password With Salt")
     public void testEncryptPasswordWithSalt() {
-
-        String actualEncryptPassword = securityService.encryptPasswordWithSalt("pass", "user");
+        SecurityService.Credentials credentials = new SecurityService.Credentials("user", "pass");
+        String actualEncryptPassword = securityService.encryptPasswordWithSalt(credentials);
         String expectedEncryptPassword = "a3634ac4a752cfcee2c3e8ff2351347d";
 
         assertEquals(expectedEncryptPassword, actualEncryptPassword);
@@ -61,29 +59,18 @@ public class SecurityServiceTest {
     @Test
     @DisplayName("test Login when User And Password are Not correct")
     public void testLogin_whenUserAndPassword_areNotCorrect() {
-        UUID token = securityService.login("user", "NotExistingPassword");
-        assertNull(token);
+        SecurityService.Credentials credentials = new SecurityService.Credentials("user1", "NotExistingPassword");
+        Optional<Session> login = securityService.login(credentials);
+        assertTrue(login.isEmpty());
     }
 
     @Test
     @DisplayName("test Login when User And Password are correct")
     public void testLogin_whenUserAndPassword_areCorrect() {
         String expectedValue = "0";
-        UUID token = securityService.login("user", "pass");
+        SecurityService.Credentials credentials = new SecurityService.Credentials("user", "pass");
+        Optional<Session> login = securityService.login(credentials);
 
-        assertNotNull(token);
-        assertNotEquals(expectedValue, token.toString());
-    }
-
-    @Test
-    @DisplayName("test Check Password")
-    public void testCheckPassword_whenPasswordIsValid() {
-        assertTrue(securityService.isValidCredential("user", "pass"));
-    }
-
-    @Test
-    @DisplayName("test Check Password when Password Is Not Valid")
-    public void testCheckPassword_whenPasswordIsNotValid() {
-        assertFalse(securityService.isValidCredential("user", "1234"));
+        assertNotEquals(expectedValue, login.toString());
     }
 }

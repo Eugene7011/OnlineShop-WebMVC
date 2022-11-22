@@ -1,6 +1,7 @@
 package com.podzirei.onlineshop.web.controller;
 
 import com.podzirei.onlineshop.security.SecurityService;
+import com.podzirei.onlineshop.security.Session;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.UUID;
+import java.util.Optional;
 
 @Controller
 @RequestMapping(path = "/login")
@@ -33,13 +34,16 @@ public class LoginController {
                             @RequestParam(value = "password") String password,
                             HttpServletResponse response) throws IOException {
 
-        UUID token = securityService.login(login, password);
-        if (token == null) {
+        SecurityService.Credentials credentials = securityService.setCredentials(login, password);
+
+        Optional<Session> optionalSession = securityService.login(credentials);
+        if (optionalSession.isEmpty()) {
             response.getWriter().write("<h3 style=position:absolute;left:33%;>Please enter correct login and password! </h3>");
             return "login";
         }
 
-        Cookie cookie = new Cookie("cookieId", token.toString());
+        Session session = optionalSession.get();
+        Cookie cookie = new Cookie("userToken", session.getToken().toString());
         cookie.setMaxAge(MAX_AGE);
         cookie.setDomain(DOMAIN);
         cookie.setPath(PATH);

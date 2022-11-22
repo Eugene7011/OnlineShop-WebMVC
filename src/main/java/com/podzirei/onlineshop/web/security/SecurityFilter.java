@@ -1,6 +1,8 @@
 package com.podzirei.onlineshop.web.security;
 
 import com.podzirei.onlineshop.security.SecurityService;
+import com.podzirei.onlineshop.security.Session;
+import com.podzirei.onlineshop.service.CurrentUser;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.Filter;
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -28,22 +31,30 @@ public class SecurityFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
-        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws ServletException, IOException {
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        String requestURI = httpServletRequest.getRequestURI();
+        String requestURI = request.getRequestURI();
         for (String allowedPath : allowedPath) {
             if (requestURI.startsWith(allowedPath)) {
-                chain.doFilter(request, response);
+                chain.doFilter(servletRequest, servletResponse);
                 return;
             }
         }
+        Optional<Session> sessionOptional = securityService.getSession(retrieveTokens(request));
+        if (sessionOptional.isEmpty()) {
+            response.sendRedirect("/login");
+        }
 
-        if (securityService.isAuth(retrieveTokens(httpServletRequest))) {
-            chain.doFilter(request, response);
-        } else {
-            httpServletResponse.sendRedirect("/login");
+        Session session = sessionOptional.get();
+        servletRequest.setAttribute("session", session);
+        CurrentUser.setCurrentUser(session.getUser());
+
+        try {
+            chain.doFilter(servletRequest, servletResponse);
+        } finally {
+            CurrentUser.remove();
         }
     }
 
@@ -59,7 +70,7 @@ public class SecurityFilter implements Filter {
     private List<UUID> retrieveTokens(HttpServletRequest httpServletRequest) {
 
         List<UUID> tokens = Arrays.stream(httpServletRequest.getCookies())
-                .filter(cookie -> ("cookieId").equals(cookie.getName()))
+                .filter(cookie -> ("userToken").equals(cookie.getName()))
                 .map(Cookie::getValue)
                 .toList()
                 .stream()

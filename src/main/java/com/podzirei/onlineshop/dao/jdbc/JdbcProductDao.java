@@ -20,12 +20,9 @@ public class JdbcProductDao implements ProductDao {
     private static final String FIND_ALL_SQL = "SELECT id, name, price, creation_date FROM products;";
     private static final String ADD_SQL = "INSERT INTO products (name, price, creation_date) VALUES (?,?,?);";
     private static final String DELETE_SQL = "DELETE FROM products WHERE id=?;";
-    private static final String UPDATE_SQL = "UPDATE products SET name=?, price=?, creation_date=? WHERE id=?;";
+    private static final String UPDATE_SQL = "UPDATE products SET name=?, price=? WHERE id=?;";
     private static final String SEARCH_SQL = "SELECT id, name, price, creation_date FROM products WHERE  (name) LIKE ?;";
     private static final String FIND_BY_ID_SQL = "SELECT id, name, price, creation_date FROM products WHERE id=?;";
-    private static final String FIND_ALL_CART_SQL = "SELECT id, name, price FROM cart;";
-    private static final String ADD_TO_CART_SQL = "INSERT INTO cart (id, name, price) VALUES (?,?,?);";
-    private static final String DELETE_FROM_CART_SQL = "DELETE FROM cart WHERE id=?;";
 
     private final static ProductRowMapper productRowMapper = new ProductRowMapper();
     private final DataSource dataSource;
@@ -78,14 +75,13 @@ public class JdbcProductDao implements ProductDao {
     }
 
     @Override
-    public void update(Product product) {
+    public void update(String name, Double price, int id) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_SQL)) {
 
-            preparedStatement.setLong(4, product.getId());
-            preparedStatement.setString(1, product.getName());
-            preparedStatement.setDouble(2, product.getPrice());
-            preparedStatement.setTimestamp(3, Timestamp.valueOf(product.getCreationDate()));
+            preparedStatement.setString(1, name);
+            preparedStatement.setDouble(2, price);
+            preparedStatement.setLong(3, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Can not edit product from database", e);
@@ -114,64 +110,18 @@ public class JdbcProductDao implements ProductDao {
         }
     }
 
-    @Override
-    public void addToCart(int id) {
-        Product product = findProductById(id);
-
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(ADD_TO_CART_SQL)) {
-
-            preparedStatement.setInt(1, product.getId());
-            preparedStatement.setString(2, product.getName());
-            preparedStatement.setDouble(3, product.getPrice());
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            throw new RuntimeException("Can add product to cart: " + product.getId(), e);
-        }
-    }
-
-    @Override
-    public List<Product> showCart() {
-        try (Connection connection = dataSource.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(FIND_ALL_CART_SQL)) {
-            List<Product> products = new ArrayList<>();
-            while (resultSet.next()) {
-                Product product = productRowMapper.mapRowFromCart(resultSet);
-                products.add(product);
-            }
-            return products;
-        } catch (SQLException exception) {
-            throw new RuntimeException("Unable to get products from cart", exception);
-        }
-    }
-
-    @Override
-    public void deleteFromCart(int id) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_FROM_CART_SQL)) {
-
-            preparedStatement.setInt(1, Integer.parseInt(String.valueOf(id)));
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("Can not delete product from cart", e);
-        }
-    }
-
-    private Product findProductById(int id) {
+    public Product findById(int id) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID_SQL)) {
 
             preparedStatement.setInt(1, Integer.parseInt(String.valueOf(id)));
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            List<Product> products = new ArrayList<>();
+            Product product = new Product();
             while (resultSet.next()) {
-                Product product = productRowMapper.mapRowFromCart(resultSet);
-                products.add(product);
+                product = productRowMapper.mapRowFromCart(resultSet);
             }
-            return products.get(0);
+            return product;
         } catch (SQLException exception) {
             throw new RuntimeException("Unable to get product from database", exception);
         }

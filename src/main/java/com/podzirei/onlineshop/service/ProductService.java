@@ -27,23 +27,16 @@ public class ProductService {
         return productDao.findAll();
     }
 
-    public void update(Product product) {
-        productDao.update(product);
+    public void update(String name, Double price, int id) {
+        productDao.update(name, price, id);
+    }
+
+    public Product findById(int id) {
+        return productDao.findById(id);
     }
 
     public List<Product> search(String searchText) {
         return productDao.search(searchText);
     }
 
-    public void addToCart(int id) {
-        productDao.addToCart(id);
-    }
-
-    public List<Product> showCart() {
-        return productDao.showCart();
-    }
-
-    public void deleteFromCart(int id) {
-        productDao.deleteFromCart(id);
-    }
 }

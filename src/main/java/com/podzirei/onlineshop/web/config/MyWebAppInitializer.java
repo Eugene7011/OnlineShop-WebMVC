@@ -1,6 +1,5 @@
-package com.podzirei.onlineshop.config;
+package com.podzirei.onlineshop.web.config;
 
-import com.podzirei.onlineshop.web.config.WebConfig;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 

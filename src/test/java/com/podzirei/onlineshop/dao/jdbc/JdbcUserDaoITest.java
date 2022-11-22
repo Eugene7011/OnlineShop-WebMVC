@@ -1,8 +1,8 @@
 package com.podzirei.onlineshop.dao.jdbc;
 
-import com.podzirei.onlineshop.config.DataSourceConfig;
-import com.podzirei.onlineshop.config.RootConfig;
+import com.podzirei.onlineshop.dao.jdbc.config.DataSourceConfig;
 import com.podzirei.onlineshop.entity.User;
+import com.podzirei.onlineshop.web.config.RootConfig;
 import com.podzirei.onlineshop.web.config.WebConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

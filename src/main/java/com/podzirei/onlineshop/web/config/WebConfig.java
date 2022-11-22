@@ -9,7 +9,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 @Configuration
-@EnableWebMvc
+//@EnableWebMvc
 @ComponentScan(basePackages = {"com.podzirei.onlineshop.web.controller"})
 public class WebConfig implements WebMvcConfigurer {
 

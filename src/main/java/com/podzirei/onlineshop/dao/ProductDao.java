@@ -11,13 +11,9 @@ public interface ProductDao {
 
     void delete(int id);
 
-    void update(Product product);
+    void update(String name, Double price, int id);
 
     List<Product> search(String searchText);
 
-    void addToCart(int id);
-
-    List<Product> showCart();
-
-    void deleteFromCart(int id);
+    Product findById(int id);
 }

@@ -1,9 +1,6 @@
 package com.podzirei.onlineshop.web.config;
 
-import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-
-import javax.servlet.Filter;
 
 public class MyWebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
@@ -20,12 +17,5 @@ public class MyWebAppInitializer extends AbstractAnnotationConfigDispatcherServl
     @Override
     protected String[] getServletMappings() {
         return new String[]{"/"};
-    }
-
-    @Override
-    protected javax.servlet.Filter[] getServletFilters() {
-        DelegatingFilterProxy delegateFilterProxy = new DelegatingFilterProxy();
-        delegateFilterProxy.setTargetBeanName("securityFilter");
-        return new Filter[]{delegateFilterProxy};
     }
 }

@@ -1,4 +1,4 @@
-package com.podzirei.onlineshop.dao.jdbc.jdbcTemplate;
+package com.podzirei.onlineshop.dao.repository.jdbcTemplate;
 
 import javax.sql.DataSource;
 import java.sql.Connection;

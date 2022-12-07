@@ -1,6 +1,6 @@
-package com.podzirei.onlineshop.dao.jdbc.mapper;
+package com.podzirei.onlineshop.dao.repository.mapper;
 
-import com.podzirei.onlineshop.dao.jdbc.jdbcTemplate.RowMapper;
+import com.podzirei.onlineshop.dao.repository.jdbcTemplate.RowMapper;
 import com.podzirei.onlineshop.entity.Product;
 
 import java.sql.ResultSet;

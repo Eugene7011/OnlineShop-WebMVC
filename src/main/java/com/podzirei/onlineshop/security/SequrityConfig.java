@@ -1,4 +1,4 @@
-package com.podzirei.onlineshop.web.security;
+package com.podzirei.onlineshop.security;
 
 import com.podzirei.onlineshop.service.UserService;
 import lombok.RequiredArgsConstructor;

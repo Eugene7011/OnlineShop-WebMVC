@@ -1,6 +1,6 @@
-package com.podzirei.onlineshop.dao.jdbc;
+package com.podzirei.onlineshop.dao.repository;
 
-import com.podzirei.onlineshop.dao.jdbc.config.DataSourceConfig;
+import com.podzirei.onlineshop.dao.repository.config.DataSourceConfig;
 import com.podzirei.onlineshop.entity.Product;
 import com.podzirei.onlineshop.web.config.RootConfig;
 import com.podzirei.onlineshop.web.config.WebConfig;

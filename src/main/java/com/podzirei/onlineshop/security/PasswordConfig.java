@@ -1,4 +1,4 @@
-package com.podzirei.onlineshop.web.security;
+package com.podzirei.onlineshop.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

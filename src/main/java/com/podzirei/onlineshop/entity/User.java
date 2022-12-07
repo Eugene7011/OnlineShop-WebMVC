@@ -7,16 +7,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Set;
 
-@Data
 @Builder
 @AllArgsConstructor
 public class User implements UserDetails {
     private int id;
-    private String login;
     private String password;
-    private String salt;
-
-//    private final String username;
+    private final String username;
     private final Set<? extends GrantedAuthority> grantedAuthorities;
     private final boolean isAccountNonExpired;
     private final boolean isAccountNonLocked;
@@ -35,7 +31,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return login;
+        return username;
     }
 
     @Override

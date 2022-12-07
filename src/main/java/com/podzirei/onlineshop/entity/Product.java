@@ -2,13 +2,15 @@ package com.podzirei.onlineshop.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Data
 @AllArgsConstructor
+@Setter
+@Getter
 @Builder
 @NoArgsConstructor
 public class Product {
@@ -17,4 +19,3 @@ public class Product {
     private double price;
     private LocalDateTime creationDate;
 }
-

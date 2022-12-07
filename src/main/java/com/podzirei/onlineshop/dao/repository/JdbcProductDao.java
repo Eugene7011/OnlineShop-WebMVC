@@ -1,8 +1,8 @@
-package com.podzirei.onlineshop.dao.jdbc;
+package com.podzirei.onlineshop.dao.repository;
 
 import com.podzirei.onlineshop.dao.ProductDao;
-import com.podzirei.onlineshop.dao.jdbc.jdbcTemplate.JdbcTemplate;
-import com.podzirei.onlineshop.dao.jdbc.mapper.ProductRowMapper;
+import com.podzirei.onlineshop.dao.repository.jdbcTemplate.JdbcTemplate;
+import com.podzirei.onlineshop.dao.repository.mapper.ProductRowMapper;
 import com.podzirei.onlineshop.entity.Product;
 import org.springframework.stereotype.Repository;
 

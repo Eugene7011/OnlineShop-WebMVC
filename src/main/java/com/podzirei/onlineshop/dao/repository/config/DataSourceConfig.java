@@ -1,4 +1,4 @@
-package com.podzirei.onlineshop.dao.jdbc.config;
+package com.podzirei.onlineshop.dao.repository.config;
 
 import org.postgresql.ds.PGSimpleDataSource;
 import org.springframework.beans.factory.annotation.Value;

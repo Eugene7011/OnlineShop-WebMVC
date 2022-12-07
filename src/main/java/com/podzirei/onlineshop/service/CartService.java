@@ -1,10 +1,10 @@
 package com.podzirei.onlineshop.service;
 
 import com.podzirei.onlineshop.entity.Product;
-import com.podzirei.onlineshop.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,28 +16,28 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CartService {
 
     private final ProductService productService;
-    private final Map<User, List<Product>> mapUserToCart = new ConcurrentHashMap<>();
+    private final Map<Principal, List<Product>> mapUserToCart = new ConcurrentHashMap<>();
 
-    public void addToCart(User user, int id) {
-        List<Product> cart = mapUserToCart.get(user);
+    public void addToCart(Principal principal, int id) {
+        List<Product> cart = mapUserToCart.get(principal);
         Product product = productService.findById(id);
         if (cart == null) {
-            cart = new ArrayList<>(1);
+            cart = new ArrayList<>();
         }
         cart.add(product);
-        mapUserToCart.put(user, cart);
+        mapUserToCart.put(principal, cart);
     }
 
-    public Optional<List<Product>> getCart(User user) {
-        List<Product> cart = mapUserToCart.get(user);
+    public Optional<List<Product>> getCart(Principal principal) {
+        List<Product> cart = mapUserToCart.get(principal);
         if (cart == null){
             return Optional.empty();
         }
         return Optional.of(cart);
     }
 
-    public void deleteFromCart(User user, int id) {
-        List<Product> cart = mapUserToCart.get(user);
+    public void deleteFromCart(Principal principal, int id) {
+        List<Product> cart = mapUserToCart.get(principal);
         Product product = productService.findById(id);
         cart.remove(product);
     }

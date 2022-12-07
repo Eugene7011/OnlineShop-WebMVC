@@ -2,7 +2,6 @@ package com.podzirei.onlineshop.web.controller;
 
 import com.podzirei.onlineshop.entity.Product;
 import com.podzirei.onlineshop.service.CartService;
-import com.podzirei.onlineshop.service.CurrentUser;
 import com.podzirei.onlineshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -87,14 +87,14 @@ public class ProductController {
     }
 
     @PostMapping(path = "/cart/add")
-    public String addToCart(@RequestParam("id") int id) {
-        cartService.addToCart(CurrentUser.getCurrentUser(), id);
+    public String addToCart(@RequestParam("id") int id, Principal principal) {
+        cartService.addToCart(principal, id);
         return "redirect:/products/cart";
     }
 
     @GetMapping(path = "/cart")
-    public String getCart(Model model) {
-        Optional<List<Product>> cartOptional = cartService.getCart(CurrentUser.getCurrentUser());
+    public String getCart(@RequestParam Principal principal, Model model) {
+        Optional<List<Product>> cartOptional = cartService.getCart(principal);
 
         if (cartOptional.isEmpty()) {
             List<Product> emptyCart = new ArrayList<>(1);
@@ -112,8 +112,8 @@ public class ProductController {
     }
 
     @PostMapping(path = "/cart/delete")
-    public String deleteFromCart(@RequestParam("id") int id) {
-        cartService.deleteFromCart(CurrentUser.getCurrentUser(), id);
+    public String deleteFromCart(@RequestParam("id") int id, Principal principal) {
+        cartService.deleteFromCart(principal, id);
         return "redirect:/products/cart";
     }
 }

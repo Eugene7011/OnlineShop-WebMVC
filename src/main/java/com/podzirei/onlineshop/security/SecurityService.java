@@ -42,7 +42,7 @@ public class SecurityService {
     }
 
     public User getUser(Credentials credentials) {
-        User user = userService.findUser(credentials.getLogin());
+        User user = userService.loadUserByUsername(credentials.getLogin());
         if(user != null) {
             String encryptedPassword = encryptPasswordWithSalt(credentials);
             String passwordRelatedToUser = user.getPassword();
@@ -75,32 +75,11 @@ public class SecurityService {
     }
 
     public String getSalt(String login) {
-        User user = userService.findUser(login);
+        User user = userService.loadUserByUsername(login);
         if (user == null){
             throw new IllegalArgumentException("User is not found by login: " + login);
         }
         return user.getSalt();
-    }
-
-    public Optional<Session> getSession(List<UUID> tokens) {
-        List<UUID> sessionTokens = sessions.stream().map(Session::getToken).toList();
-        List<UUID> validTokens = new ArrayList<>(sessionTokens);
-        validTokens.retainAll(tokens);
-
-        if (validTokens.isEmpty()){
-            return Optional.empty();
-        }
-        Optional<Session> session = sessions.stream()
-                .filter(sess -> validTokens.get(0).equals(sess.getToken()))
-                .findFirst();
-        return session;
-    }
-
-    public Credentials setCredentials(String login, String password) {
-        Credentials credentials = new Credentials();
-        credentials.setLogin(login);
-        credentials.setPassword(password);
-        return credentials;
     }
 
 }

@@ -109,7 +109,7 @@ public class ProductController {
         Optional<List<Product>> cartOptional = cartService.getCart(principal);
 
         if (cartOptional.isEmpty()) {
-            List<Product> emptyCart = new ArrayList<>(1);
+            List<Product> emptyCart = new ArrayList<>();
             model.addAttribute("cart", emptyCart);
             return "cart";
         }

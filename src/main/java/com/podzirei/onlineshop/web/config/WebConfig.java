@@ -14,7 +14,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 public class WebConfig implements WebMvcConfigurer {
 
     @Bean
-    public FreeMarkerViewResolver freemarkerViewResolver(){
+    public FreeMarkerViewResolver freemarkerViewResolver() {
         FreeMarkerViewResolver resolver = new FreeMarkerViewResolver();
         resolver.setPrefix("");
         resolver.setSuffix(".html");

@@ -30,7 +30,7 @@ public class CartService {
 
     public Optional<List<Product>> getCart(Principal principal) {
         List<Product> cart = mapUserToCart.get(principal);
-        if (cart == null){
+        if (cart == null) {
             return Optional.empty();
         }
         return Optional.of(cart);

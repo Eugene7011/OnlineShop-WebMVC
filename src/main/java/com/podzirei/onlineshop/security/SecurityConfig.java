@@ -31,7 +31,6 @@ public class SecurityConfig {
                 .authenticated()
                 .and()
                 .formLogin()
-//                .loginPage("/login").permitAll()
                 .passwordParameter("password")
                 .usernameParameter("username")
                 .and()

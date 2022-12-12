@@ -8,6 +8,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -38,7 +39,6 @@ public class CartService {
 
     public void deleteFromCart(Principal principal, int id) {
         List<Product> cart = mapUserToCart.get(principal);
-        Product product = productService.findById(id);
-        cart.remove(product);
+        cart.removeIf(prod -> Objects.equals(prod.getId(), id));
     }
 }

@@ -34,7 +34,7 @@ public class ProductController {
     }
 
     @GetMapping(path = "/add")
-//    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public String addProductPage() {
         return "add_product";
     }
@@ -105,7 +105,7 @@ public class ProductController {
 
     @GetMapping(path = "/cart")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    public String getCart(@RequestParam Principal principal, Model model) {
+    public String getCart(Principal principal, Model model) {
         Optional<List<Product>> cartOptional = cartService.getCart(principal);
 
         if (cartOptional.isEmpty()) {

@@ -11,8 +11,9 @@ import java.util.Set;
 @AllArgsConstructor
 public class User implements UserDetails {
     private int id;
-    private String password;
     private final String username;
+
+    private String password;
     private final Set<? extends GrantedAuthority> grantedAuthorities;
     private final boolean isAccountNonExpired;
     private final boolean isAccountNonLocked;

@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 @EnableWebSecurity
 @RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SequrityConfig {
+public class SecurityConfig {
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
 
@@ -31,7 +31,7 @@ public class SequrityConfig {
                 .authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login").permitAll()
+//                .loginPage("/login").permitAll()
                 .passwordParameter("password")
                 .usernameParameter("username")
                 .and()

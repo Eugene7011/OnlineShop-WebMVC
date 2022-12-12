@@ -34,7 +34,7 @@ public class ProductController {
     }
 
     @GetMapping(path = "/add")
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+//    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public String addProductPage() {
         return "add_product";
     }
